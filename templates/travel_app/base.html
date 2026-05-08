@@ -1,0 +1,232 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}TravelAI — Smartest AI Travel Companion{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'travel_app/css/style.css' %}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/826/826070.png">
+</head>
+<body>
+    <nav class="navbar animate-fade">
+        <a href="{% url 'home' %}" class="nav-logo">
+            <i class="fas fa-paper-plane"></i>
+            Travel<span>AI</span>
+        </a>
+        <ul class="nav-links">
+            <li><a href="{% url 'home' %}">Home</a></li>
+            {% if user.is_authenticated %}
+                <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
+                <li><a href="{% url 'ai_planner' %}">AI Planner</a></li>
+                <li><a href="{% url 'seasonal_guide' %}">Best Seasons</a></li>
+                <li><a href="{% url 'discover' %}">Local Discovery</a></li>
+                <li><a href="{% url 'saved_trips' %}">My Trips</a></li>
+            {% endif %}
+        </ul>
+        <div class="nav-auth" style="display: flex; align-items: center; gap: 1.5rem;">
+            <!-- Theme Toggle -->
+            <div id="theme-toggle" style="cursor: pointer; width: 40px; height: 40px; background: var(--input-bg); border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 1px solid var(--input-border); color: var(--text-main); transition: all 0.3s;">
+                <i class="fas fa-moon" id="theme-icon"></i>
+            </div>
+
+            {% if user.is_authenticated %}
+                <div style="display: flex; align-items: center; gap: 1.5rem;">
+                    <a href="{% url 'profile' %}" style="text-decoration: none; color: var(--text-main); font-weight: 700; display: flex; align-items: center; gap: 0.5rem;">
+                        {% if user.profile.profile_pic %}
+                            <img src="{{ user.profile.profile_pic.url }}" style="width: 35px; height: 35px; border-radius: 50%; object-fit: cover;">
+                        {% else %}
+                            <i class="fas fa-user-circle fa-lg"></i>
+                        {% endif %}
+                        {{ user.username }}
+                    </a>
+                    <a href="{% url 'logout' %}" class="btn btn-outline" style="padding: 0.5rem 1rem;">Logout</a>
+                </div>
+            {% else %}
+                <a href="{% url 'login' %}" class="btn btn-outline">Login</a>
+                <a href="{% url 'register' %}" class="btn btn-primary">Join Free</a>
+            {% endif %}
+        </div>
+    </nav>
+
+
+    <main>
+        {% if messages %}
+            <div class="container" style="margin-top: 1rem;">
+                {% for message in messages %}
+                    <div class="animate-fade" style="padding: 1rem 1.5rem; border-radius: var(--radius-lg); margin-bottom: 1rem; background: {% if message.tags == 'success' %}#d1fae5; color: #065f46;{% else %}#fee2e2; color: #991b1b;{% endif %} display: flex; align-items: center; gap: 1rem; font-weight: 600;">
+                        <i class="fas {% if message.tags == 'success' %}fa-check-circle{% else %}fa-exclamation-circle{% endif %}"></i>
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+        
+        {% block content %}{% endblock %}
+    </main>
+
+    {% if user.is_authenticated %}
+    <div id="chatbot-launcher" onclick="toggleChat()" style="position: fixed; bottom: 2rem; right: 2rem; background: var(--primary-gradient); color: white; width: 65px; height: 65px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 10px 25px rgba(99, 102, 241, 0.4); z-index: 1001;">
+        <i class="fas fa-comment-dots fa-2x"></i>
+    </div>
+
+    <div id="chatbot-container" style="display: none; position: fixed; bottom: 6rem; right: 2rem; width: 380px; height: 550px; background: var(--card-bg); border-radius: var(--radius-2xl); box-shadow: var(--shadow-xl); flex-direction: column; overflow: hidden; z-index: 1000; border: 1px solid var(--card-border);">
+        <div style="background: var(--primary-gradient); color: var(--white); padding: 1.5rem; display: flex; justify-content: space-between; align-items: center;">
+            <div style="display: flex; align-items: center; gap: 1rem;">
+                <div style="width: 40px; height: 40px; background: rgba(255,255,255,0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <div>
+                    <h4 style="margin: 0;">TravelAI Buddy</h4>
+                    <small style="opacity: 0.8;">Online | Powered by AI</small>
+                </div>
+            </div>
+            <button onclick="toggleChat()" style="background: none; border: none; color: white; cursor: pointer; font-size: 1.2rem;"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="chat-messages" id="chat-box" style="flex: 1; padding: 1.5rem; overflow-y: auto; background: var(--light); display: flex; flex-direction: column; gap: 1rem;">
+            <div style="background: var(--card-bg); padding: 1rem; border-radius: 1rem 1rem 1rem 0; box-shadow: var(--shadow-sm); max-width: 85%; align-self: flex-start; font-size: 0.95rem; color: var(--text-main); border: 1px solid var(--card-border);">
+                Hi {{ user.username }}! 👋 I'm your AI travel assistant. Where are we heading next?
+            </div>
+        </div>
+        <div style="padding: 1.2rem; background: var(--white); border-top: 1px solid #f1f5f9; display: flex; gap: 0.8rem;">
+            <input type="text" id="chat-input" placeholder="Ask anything..." class="form-control" style="flex: 1; border-radius: 2rem;">
+            <button onclick="sendMessage()" class="btn btn-primary" style="padding: 0.8rem; border-radius: 50%; width: 45px; height: 45px; justify-content: center;">
+                <i class="fas fa-paper-plane"></i>
+            </button>
+        </div>
+    </div>
+    {% endif %}
+
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-info">
+                <a href="#" class="footer-logo nav-logo">
+                    <i class="fas fa-paper-plane"></i>
+                    Travel<span>AI</span>
+                </a>
+                <p style="margin-top: 1.5rem; max-width: 300px;">Crafting unforgettable journeys with the power of artificial intelligence. Your dream trip, curated just for you.</p>
+                <div style="margin-top: 2rem; display: flex; gap: 1rem;">
+                    <a href="#" class="btn btn-outline" style="padding: 0.6rem; width: 40px; height: 40px; justify-content: center; border-radius: 50%;"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="btn btn-outline" style="padding: 0.6rem; width: 40px; height: 40px; justify-content: center; border-radius: 50%;"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="btn btn-outline" style="padding: 0.6rem; width: 40px; height: 40px; justify-content: center; border-radius: 50%;"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+            <div class="footer-links">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="{% url 'home' %}">Home</a></li>
+                    <li><a href="{% url 'ai_planner' %}">AI Planner</a></li>
+                    <li><a href="{% url 'hotels' %}">Hotels</a></li>
+                    <li><a href="{% url 'saved_trips' %}">My Saved Trips</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Support</h4>
+                <ul>
+                    <li><a href="#">Help Center</a></li>
+                    <li><a href="#">Safety Guides</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Newsletter</h4>
+                <p style="margin-bottom: 1.5rem; font-size: 0.9rem;">Get the best travel deals and AI tips straight to your inbox.</p>
+                <div style="display: flex; gap: 0.5rem;">
+                    <input type="email" placeholder="Email" class="form-control" style="font-size: 0.8rem;">
+                    <button class="btn btn-primary" style="padding: 0.6rem 1rem;">Go</button>
+                </div>
+            </div>
+        </div>
+        <div style="text-align: center; border-top: 1px solid #1e293b; padding-top: 2rem; font-size: 0.9rem;">
+            <p>&copy; 2026 TravelAI Inc. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        function toggleChat() {
+            const chat = document.getElementById('chatbot-container');
+            chat.style.display = chat.style.display === 'none' ? 'flex' : 'none';
+        }
+
+        async function sendMessage() {
+            const input = document.getElementById('chat-input');
+            const box = document.getElementById('chat-box');
+            const message = input.value;
+            if (!message) return;
+
+            box.innerHTML += `
+                <div style="background: var(--primary-gradient); color: white; padding: 1rem; border-radius: 1rem 1rem 0 1rem; box-shadow: var(--shadow-sm); max-width: 85%; align-self: flex-end; font-size: 0.95rem;">
+                    ${message}
+                </div>
+            `;
+            input.value = '';
+            box.scrollTop = box.scrollHeight;
+
+            try {
+                const response = await fetch('{% url "chatbot_api" %}', {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': '{{ csrf_token }}',
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `message=${encodeURIComponent(message)}`
+                });
+                const data = await response.json();
+                
+                setTimeout(() => {
+                    box.innerHTML += `
+                        <div style="background: var(--card-bg); padding: 1rem; border-radius: 1rem 1rem 1rem 0; box-shadow: var(--shadow-sm); max-width: 85%; align-self: flex-start; font-size: 0.95rem; border: 1px solid var(--card-border); color: var(--text-main);">
+                            ${data.reply}
+                        </div>
+                    `;
+                    box.scrollTop = box.scrollHeight;
+                }, 500);
+            } catch (error) {
+                console.error('Chat error:', error);
+            }
+        }
+    </script>
+    <script>
+        // Theme Management
+        document.addEventListener('DOMContentLoaded', () => {
+            const themeToggle = document.getElementById('theme-toggle');
+            const themeIcon = document.getElementById('theme-icon');
+            const html = document.documentElement;
+
+            if (!themeToggle || !themeIcon) {
+                console.error('Theme toggle elements not found');
+                return;
+            }
+
+            // Check for saved theme or system preference
+            const savedTheme = localStorage.getItem('theme');
+            const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+            const currentTheme = savedTheme || systemTheme;
+
+            // Apply theme on load
+            html.setAttribute('data-theme', currentTheme);
+            updateIcon(currentTheme);
+
+            themeToggle.addEventListener('click', () => {
+                const newTheme = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+                html.setAttribute('data-theme', newTheme);
+                localStorage.setItem('theme', newTheme);
+                updateIcon(newTheme);
+                console.log('Theme changed to:', newTheme);
+            });
+
+            function updateIcon(theme) {
+                if (theme === 'dark') {
+                    themeIcon.classList.remove('fa-moon');
+                    themeIcon.classList.add('fa-sun');
+                } else {
+                    themeIcon.classList.remove('fa-sun');
+                    themeIcon.classList.add('fa-moon');
+                }
+            }
+        });
+    </script>
+</body>
+</html>

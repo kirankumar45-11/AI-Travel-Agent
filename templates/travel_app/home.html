@@ -1,0 +1,125 @@
+{% extends 'travel_app/base.html' %}
+{% load static %}
+
+{% block title %}TravelAI — Experience the Future of Travel{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <div class="hero-content animate-slide">
+        <div style="display: inline-flex; align-items: center; gap: 0.5rem; background: #e0e7ff; color: var(--primary); padding: 0.5rem 1rem; border-radius: 2rem; font-weight: 700; font-size: 0.8rem; margin-bottom: 1.5rem; text-transform: uppercase; letter-spacing: 1px;">
+            <i class="fas fa-sparkles"></i> AI-Powered Travel Agent
+        </div>
+        <h1>Plan your <span>Dream Trip</span> in Seconds</h1>
+        <p>Your personal AI travel companion. Personalized itineraries, exclusive hotel deals, and smart budget planning—all tailored to your unique style.</p>
+        <div style="display: flex; gap: 1rem;">
+            {% if user.is_authenticated %}
+                <a href="{% url 'ai_planner' %}" class="btn btn-primary btn-lg"><i class="fas fa-magic"></i> Start Planning</a>
+            {% else %}
+                <a href="{% url 'register' %}" class="btn btn-primary btn-lg">Get Started Free</a>
+            {% endif %}
+            <a href="#featured" class="btn btn-outline btn-lg"><i class="fas fa-compass"></i> Explore Destinations</a>
+        </div>
+        
+        <div style="margin-top: 4rem; display: flex; align-items: center; gap: 2rem;">
+            <div style="display: flex; -webkit-mask-image: linear-gradient(to right, black 80%, transparent);">
+                <img src="https://i.pravatar.cc/40?img=1" style="width: 40px; height: 40px; border-radius: 50%; border: 3px solid white; margin-right: -10px;">
+                <img src="https://i.pravatar.cc/40?img=2" style="width: 40px; height: 40px; border-radius: 50%; border: 3px solid white; margin-right: -10px;">
+                <img src="https://i.pravatar.cc/40?img=3" style="width: 40px; height: 40px; border-radius: 50%; border: 3px solid white; margin-right: -10px;">
+                <div style="width: 40px; height: 40px; border-radius: 50%; border: 3px solid white; background: #f1f5f9; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: 700;">+10k</div>
+            </div>
+            <p style="font-size: 0.9rem; color: #64748b; font-weight: 600;">Trusted by 10,000+ travelers worldwide</p>
+        </div>
+    </div>
+    <div class="hero-image animate-fade">
+        <img src="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Beautiful Travel Scene">
+        <div class="animate-float" style="position: absolute; bottom: 10%; left: -10%; background: var(--white); padding: 1.5rem; border-radius: var(--radius-lg); box-shadow: var(--shadow-xl); display: flex; align-items: center; gap: 1rem; z-index: 5;">
+            <div style="width: 50px; height: 50px; background: #dcfce7; color: var(--accent); border-radius: 1rem; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <div>
+                <h4 style="margin: 0; font-size: 1rem;">Itinerary Ready!</h4>
+                <small style="color: #64748b;">Bali, 7 Days Trip</small>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="stats-grid animate-fade">
+    <div class="stat-item">
+        <div class="stat-number">98%</div>
+        <div class="stat-label">Client Satisfaction</div>
+    </div>
+    <div class="stat-item">
+        <div class="stat-number">500+</div>
+        <div class="stat-label">Destinations</div>
+    </div>
+    <div class="stat-item">
+        <div class="stat-number">24/7</div>
+        <div class="stat-label">AI Support</div>
+    </div>
+    <div class="stat-item">
+        <div class="stat-number">1M+</div>
+        <div class="stat-label">Trips Planned</div>
+    </div>
+</div>
+
+<section id="featured" class="container">
+    <div class="section-title">
+        <h2>Trending Destinations</h2>
+        <p>Discover the most popular spots recommended by our AI community.</p>
+    </div>
+    <div class="card-container" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2.5rem;">
+        {% for dest in destinations %}
+        <div class="card animate-fade">
+            <div class="card-img-wrapper">
+                <img src="{{ dest.image }}" alt="{{ dest.name }}" class="card-img">
+                <div class="card-tag"><i class="fas fa-star" style="color: var(--secondary);"></i> {{ dest.rating }}</div>
+            </div>
+            <div class="card-content" style="padding: 2rem;">
+                <h3 style="margin-bottom: 0.5rem; font-size: 1.5rem;">{{ dest.name }}</h3>
+                <p style="color: #64748b; font-size: 0.95rem; margin-bottom: 1.5rem;">Starting from <strong>${{ dest.price }}</strong> per person.</p>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <span style="background: #f1f5f9; padding: 0.4rem 0.8rem; border-radius: 0.5rem; font-size: 0.8rem; font-weight: 700; color: #475569;">7 Days</span>
+                    <a href="{% url 'register' %}" class="btn btn-primary btn-sm" style="padding: 0.6rem 1.2rem;">Book Now</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+<section style="background: var(--dark); color: white; padding: 6rem 0; overflow: hidden; position: relative;">
+    <div class="container" style="display: flex; align-items: center; gap: 4rem;">
+        <div style="flex: 1;">
+            <h2 style="font-size: 3rem; margin-bottom: 2rem; line-height: 1.2;">Experience <span>Seamless</span> Travel Planning</h2>
+            <div style="display: flex; flex-direction: column; gap: 2rem;">
+                <div style="display: flex; gap: 1.5rem; align-items: flex-start;">
+                    <div style="width: 48px; height: 48px; background: rgba(99, 102, 241, 0.2); border-radius: 1rem; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; color: var(--primary); flex-shrink: 0;">1</div>
+                    <div>
+                        <h4 style="margin-bottom: 0.5rem;">Tell us your vibe</h4>
+                        <p style="color: #94a3b8;">Enter your destination, budget, and travel style to get started.</p>
+                    </div>
+                </div>
+                <div style="display: flex; gap: 1.5rem; align-items: flex-start;">
+                    <div style="width: 48px; height: 48px; background: rgba(168, 85, 247, 0.2); border-radius: 1rem; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; color: #a855f7; flex-shrink: 0;">2</div>
+                    <div>
+                        <h4 style="margin-bottom: 0.5rem;">AI Crafts Itinerary</h4>
+                        <p style="color: #94a3b8;">Our engine builds a minute-by-minute plan customized for you.</p>
+                    </div>
+                </div>
+                <div style="display: flex; gap: 1.5rem; align-items: flex-start;">
+                    <div style="width: 48px; height: 48px; background: rgba(16, 185, 129, 0.2); border-radius: 1rem; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; color: var(--accent); flex-shrink: 0;">3</div>
+                    <div>
+                        <h4 style="margin-bottom: 0.5rem;">Ready to Fly</h4>
+                        <p style="color: #94a3b8;">Book hotels, save your plan, and head to the airport.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style="flex: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; position: relative;">
+            <img src="https://images.unsplash.com/photo-1517760444937-f6397edcbbcd?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" style="width: 100%; border-radius: 1rem; height: 300px; object-fit: cover;">
+            <img src="https://images.unsplash.com/photo-1527631746610-bca00a040d60?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" style="width: 100%; border-radius: 1rem; height: 350px; object-fit: cover; margin-top: 2rem;">
+        </div>
+    </div>
+</section>
+{% endblock %}

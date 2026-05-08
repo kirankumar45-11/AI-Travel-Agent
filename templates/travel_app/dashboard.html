@@ -1,0 +1,133 @@
+{% extends 'travel_app/base.html' %}
+
+{% block title %}Dashboard — TravelAI{% endblock %}
+
+{% block content %}
+<div class="container" style="padding: 4rem 0;">
+    <div class="dashboard-grid">
+        <!-- Sidebar -->
+        <aside class="sidebar animate-slide">
+            <div style="text-align: center; margin-bottom: 2rem;">
+                {% if user.profile.profile_pic %}
+                    <img src="{{ user.profile.profile_pic.url }}" style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover; border: 4px solid var(--card-border);">
+                {% else %}
+                    <div style="width: 100px; height: 100px; border-radius: 50%; background: var(--input-bg); display: flex; align-items: center; justify-content: center; margin: 0 auto; font-size: 2.5rem; color: var(--text-muted);">
+                        <i class="fas fa-user"></i>
+                    </div>
+                {% endif %}
+                <h3 style="margin-top: 1rem; color: var(--text-main);">{{ user.username }}</h3>
+                <p style="font-size: 0.85rem; color: var(--text-muted);">Premium Member</p>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <li><a href="{% url 'dashboard' %}" class="active"><i class="fas fa-th-large"></i> Overview</a></li>
+                <li><a href="{% url 'ai_planner' %}"><i class="fas fa-magic"></i> New Plan Trip</a></li>
+                <li><a href="{% url 'saved_trips' %}"><i class="fas fa-map"></i> My Itineraries</a></li>
+                <li><a href="{% url 'profile' %}"><i class="fas fa-user-edit"></i> Edit Profile</a></li>
+                <li><a href="#"><i class="fas fa-cog"></i> Settings</a></li>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 3rem;">
+                <div>
+                    <h1 style="font-size: 2.5rem; color: var(--text-main);">Welcome back, {{ user.username }}!</h1>
+                    <p style="color: var(--text-muted);">Ready to discover your next destination?</p>
+                </div>
+                <a href="{% url 'ai_planner' %}" class="btn btn-primary"><i class="fas fa-plus"></i> New Plan Trip</a>
+            </div>
+
+            <!-- Stats Grid -->
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-bottom: 3rem;">
+                <a href="{% url 'saved_trips' %}" class="card animate-fade stat-card" style="padding: 2rem; border-left: 5px solid var(--primary); text-decoration: none; color: var(--text-main); cursor: pointer; display: block;">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <p style="color: var(--text-muted); font-size: 0.9rem; font-weight: 700;">TOTAL TRIPS</p>
+                            <h2 style="font-size: 2rem; margin-top: 0.5rem; color: var(--text-main);">{{ total_trips }}</h2>
+                            <small style="color: var(--primary); font-weight: 600; font-size: 0.78rem;">View all &rarr;</small>
+                        </div>
+                        <div style="width: 50px; height: 50px; background: var(--input-bg); color: var(--primary); border-radius: 1rem; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; border: 1px solid var(--card-border);">
+                            <i class="fas fa-route"></i>
+                        </div>
+                    </div>
+                </a>
+                <a href="{% url 'destinations' %}" class="card animate-fade stat-card" style="padding: 2rem; border-left: 5px solid var(--accent); transition-delay: 0.1s; text-decoration: none; color: var(--text-main); cursor: pointer; display: block;">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <p style="color: var(--text-muted); font-size: 0.9rem; font-weight: 700;">DESTINATIONS</p>
+                            <h2 style="font-size: 2rem; margin-top: 0.5rem; color: var(--text-main);">{{ total_places }}</h2>
+                            <small style="color: var(--accent); font-weight: 600; font-size: 0.78rem;">View all &rarr;</small>
+                        </div>
+                        <div style="width: 50px; height: 50px; background: var(--input-bg); color: var(--accent); border-radius: 1rem; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; border: 1px solid var(--card-border);">
+                            <i class="fas fa-globe-americas"></i>
+                        </div>
+                    </div>
+                </a>
+                <a href="{% url 'saved_items' %}" class="card animate-fade stat-card" style="padding: 2rem; border-left: 5px solid var(--secondary); transition-delay: 0.2s; text-decoration: none; color: var(--text-main); cursor: pointer; display: block;">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <p style="color: var(--text-muted); font-size: 0.9rem; font-weight: 700;">SAVED ITEMS</p>
+                            <h2 style="font-size: 2rem; margin-top: 0.5rem; color: var(--text-main);">{{ total_saved }}</h2>
+                            <small style="color: var(--secondary); font-weight: 600; font-size: 0.78rem;">View all &rarr;</small>
+                        </div>
+                        <div style="width: 50px; height: 50px; background: var(--input-bg); color: var(--secondary); border-radius: 1rem; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; border: 1px solid var(--card-border);">
+                            <i class="fas fa-bookmark"></i>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Recent Trips -->
+            <div style="margin-bottom: 3rem;">
+                <h3 style="margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem;"><i class="fas fa-history" style="color: var(--primary);"></i> Recent Itineraries</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.5rem;">
+                    {% for trip in recent_trips %}
+                    <div class="card animate-fade">
+                        <div class="card-content" style="padding: 1.5rem;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 1rem;">
+                                <h4 style="font-size: 1.25rem; color: var(--text-main);">{{ trip.destination_name }}</h4>
+                                <span style="background: var(--input-bg); color: var(--text-main); padding: 0.2rem 0.6rem; border-radius: 0.5rem; font-size: 0.75rem; font-weight: 700; border: 1px solid var(--card-border);">{{ trip.travel_type }}</span>
+                            </div>
+                            <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 1.5rem;"><i class="fas fa-calendar-alt"></i> {{ trip.start_date }} — {{ trip.end_date }}</p>
+                            <div style="display: flex; gap: 0.8rem;">
+                                <a href="{% url 'itinerary_detail' trip.id %}" class="btn btn-primary" style="flex: 1; font-size: 0.8rem; padding: 0.6rem;">Explore Plan</a>
+                                <a href="{% url 'payment' trip.id %}" class="btn btn-outline" style="flex: 1; font-size: 0.8rem; padding: 0.6rem;">Book Trip</a>
+                            </div>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <div style="grid-column: 1 / -1; padding: 3rem; text-align: center; background: white; border-radius: var(--radius-2xl);">
+                        <p style="color: #94a3b8; font-weight: 600;">You haven't planned any trips yet.</p>
+                        <a href="{% url 'ai_planner' %}" class="btn btn-primary" style="margin-top: 1.5rem;">Create Your First Plan</a>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Recent Activity Table-like -->
+            <div>
+                <h3 style="margin-bottom: 1.5rem;"><i class="fas fa-search" style="color: var(--accent);"></i> Recently Searched</h3>
+                <div class="card" style="padding: 1rem; border-radius: var(--radius-lg);">
+                    {% for place in recent_places %}
+                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.5rem; {% if not forloop.last %}border-bottom: 1px solid var(--card-border);{% endif %}">
+                        <div style="display: flex; align-items: center; gap: 1rem;">
+                            <div style="width: 40px; height: 40px; background: var(--input-bg); border-radius: 0.5rem; display: flex; align-items: center; justify-content: center; color: var(--primary); border: 1px solid var(--card-border);">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div>
+                                <h5 style="margin: 0; font-size: 1rem; color: var(--text-main);">{{ place.place_name }}</h5>
+                                <small style="color: var(--text-muted);">Searched recently</small>
+                            </div>
+                        </div>
+                        <a href="{% url 'ai_planner' %}?destination={{ place.place_name }}" class="btn btn-outline" style="padding: 0.5rem 1rem; font-size: 0.8rem;">Plan Again</a>
+                    </div>
+                    {% empty %}
+                    <p style="padding: 1.5rem; text-align: center; color: #94a3b8;">Your search history is empty.</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

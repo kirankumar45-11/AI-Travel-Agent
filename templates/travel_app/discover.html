@@ -1,0 +1,382 @@
+{% extends 'travel_app/base.html' %}
+
+{% block title %}Smart Local Discovery — TravelAI{% endblock %}
+
+{% block content %}
+<div class="container" style="padding: 6rem 0;">
+    <div class="section-title animate-fade">
+        <h1 style="font-size: 3.5rem; margin-bottom: 1rem;">Smart <span>Local</span> Discovery</h1>
+        <p>Expertly curated suggestions near your current location.</p>
+    </div>
+
+    <div class="card animate-fade" style="padding: 2rem; margin-bottom: 4rem; background: var(--card-bg);">
+        <form method="GET" style="display: grid; grid-template-columns: 2fr 1.5fr 1fr; gap: 1.5rem; align-items: end;">
+            <div class="form-group">
+                <label><i class="fas fa-map-marker-alt"></i> CURRENT LOCATION</label>
+                <input type="text" name="location" value="{{ location }}" class="form-control" placeholder="India, USA, Japan..." list="discovery-locations">
+                <datalist id="discovery-locations">
+                    <optgroup label="Countries">
+                        {% for c in countries %}
+                            <option value="{{ c }}">
+                        {% endfor %}
+                    </optgroup>
+                    <optgroup label="Indian States">
+                        {% for state_val, state_name in indian_states %}
+                            <option value="{{ state_name }}">
+                        {% endfor %}
+                    </optgroup>
+                </datalist>
+            </div>
+            <div class="form-group">
+                <label><i class="fas fa-th-large"></i> CATEGORY</label>
+                <select name="category" class="form-control">
+                    {% for cat in categories %}
+                        <option value="{{ cat }}" {% if cat == category %}selected{% endif %}>{{ cat }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary" style="padding: 1rem; justify-content: center;">
+                <i class="fas fa-search-location"></i> Discover
+            </button>
+        </form>
+    </div>
+
+    {% if recommendations %}
+    <div style="display: flex; flex-direction: column; gap: 4rem;">
+        {% for place in recommendations %}
+        <div class="card animate-fade" style="overflow: visible; display: grid; grid-template-columns: 350px 1fr; gap: 0; border: none; box-shadow: var(--shadow-xl);">
+            <!-- Image / Left Column -->
+            <div style="background: var(--input-bg); border-radius: var(--radius-2xl) 0 0 var(--radius-2xl); position: relative; min-height: 400px; overflow: hidden; border-right: 1px solid var(--card-border);">
+                {% if place.image %}
+                    <img src="{{ place.image }}" alt="{{ place.name }}" style="width: 100%; height: 100%; object-fit: cover;">
+                {% else %}
+                    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; color: #cbd5e1;">
+                        <i class="fas fa-image fa-4x"></i>
+                        <p style="margin-top: 1rem; font-weight: 700;">No Image Available</p>
+                    </div>
+                {% endif %}
+                <div style="position: absolute; top: 1.5rem; left: 1.5rem; background: var(--primary-gradient); color: white; padding: 0.5rem 1rem; border-radius: 2rem; font-weight: 700; font-size: 0.8rem; z-index: 2; box-shadow: var(--shadow-md);">
+                    {{ place.category }}
+                </div>
+            </div>
+
+            <!-- Content -->
+            <div style="padding: 3.5rem;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.5rem;">
+                    <div>
+                        <h2 style="font-size: 2.2rem; margin-bottom: 0.5rem; color: var(--text-main);">{{ place.name }}</h2>
+                        <p style="color: var(--primary); font-weight: 700;"><i class="fas fa-map-marker-alt"></i> {{ place.distance }}</p>
+                    </div>
+                    <div style="text-align: right;">
+                        <span style="display: block; font-size: 0.75rem; color: var(--text-muted); font-weight: 800; text-transform: uppercase;">Budget Est.</span>
+                        <span style="font-size: 1.5rem; font-weight: 800; color: var(--text-main);">{{ place.budget }}</span>
+                    </div>
+                </div>
+
+                <p style="font-size: 1.1rem; line-height: 1.8; color: var(--text-muted); margin-bottom: 2.5rem;">{{ place.description }}</p>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; margin-bottom: 3rem;">
+                    <div>
+                        <h4 style="margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; font-size: 0.9rem; color: var(--text-main);"><i class="fas fa-clock" style="color: var(--secondary);"></i> BEST TIME</h4>
+                        <p style="color: var(--text-muted); font-size: 0.95rem;">{{ place.best_time }}</p>
+                    </div>
+                    <div>
+                        <h4 style="margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; font-size: 0.9rem; color: var(--text-main);"><i class="fas fa-ticket-alt" style="color: var(--accent);"></i> ENTRY FEE</h4>
+                        <p style="color: var(--text-muted); font-size: 0.95rem;">{{ place.entry_fee }}</p>
+                    </div>
+                    <div>
+                        <h4 style="margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; font-size: 0.9rem; color: var(--text-main);"><i class="fas fa-utensils" style="color: #f43f5e;"></i> FAMOUS FOOD</h4>
+                        <p style="color: var(--text-muted); font-size: 0.95rem;">{{ place.famous_food }}</p>
+                    </div>
+                    <div>
+                        <h4 style="margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; font-size: 0.9rem; color: var(--text-main);"><i class="fas fa-users" style="color: #6366f1;"></i> SUITABILITY</h4>
+                        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                            {% for s in place.suitability %}
+                                <span style="background: var(--input-bg); color: var(--primary); padding: 0.3rem 0.7rem; border-radius: 0.5rem; font-size: 0.75rem; font-weight: 700; border: 1px solid var(--card-border);">{{ s }}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Transport Availability -->
+                <div style="background: var(--input-bg); padding: 2rem; border-radius: var(--radius-lg); margin-bottom: 2.5rem; border: 1px solid var(--card-border);">
+                    <h4 style="margin-bottom: 1.5rem; color: var(--text-main); text-align: center;"><i class="fas fa-route" style="color: var(--primary);"></i> Available Timings & Costs</h4>
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem;">
+                        <!-- Flights -->
+                        <div style="background: var(--card-bg); padding: 1.5rem; border-radius: 1rem; border: 1px solid var(--card-border);">
+                            <div style="text-align: center; margin-bottom: 1rem;">
+                                <i class="fas fa-plane fa-2x" style="color: var(--primary);"></i>
+                                <h5 style="margin-top: 0.5rem;">FLIGHTS</h5>
+                            </div>
+                            {% for f in place.transport.flights %}
+                            <div style="display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 0.5rem; padding-bottom: 0.5rem; border-bottom: 1px dashed var(--card-border);">
+                                <span>{{ f.time }}</span>
+                                <strong style="color: var(--primary);">{{ f.cost }}</strong>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        <!-- Trains -->
+                        <div style="background: var(--card-bg); padding: 1.5rem; border-radius: 1rem; border: 1px solid var(--card-border);">
+                            <div style="text-align: center; margin-bottom: 1rem;">
+                                <i class="fas fa-train fa-2x" style="color: var(--secondary);"></i>
+                                <h5 style="margin-top: 0.5rem;">TRAINS</h5>
+                            </div>
+                            {% for t in place.transport.trains %}
+                            <div style="display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 0.5rem; padding-bottom: 0.5rem; border-bottom: 1px dashed var(--card-border);">
+                                <span>{{ t.time }}</span>
+                                <strong style="color: var(--secondary);">{{ t.cost }}</strong>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        <!-- Buses -->
+                        <div style="background: var(--card-bg); padding: 1.5rem; border-radius: 1rem; border: 1px solid var(--card-border);">
+                            <div style="text-align: center; margin-bottom: 1rem;">
+                                <i class="fas fa-bus fa-2x" style="color: var(--accent);"></i>
+                                <h5 style="margin-top: 0.5rem;">BUSES</h5>
+                            </div>
+                            {% for b in place.transport.buses %}
+                            <div style="display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 0.5rem; padding-bottom: 0.5rem; border-bottom: 1px dashed var(--card-border);">
+                                <span>{{ b.time }}</span>
+                                <strong style="color: var(--accent);">{{ b.cost }}</strong>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hotels Nearby -->
+                <div style="margin-bottom: 2.5rem;">
+                    <h4 style="margin-bottom: 1.5rem; color: var(--text-main);"><i class="fas fa-hotel" style="color: var(--secondary);"></i> Premium Hotels Nearby</h4>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                        {% for hotel in place.hotels %}
+                        <div style="background: var(--card-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--card-border); display: flex; justify-content: space-between; align-items: center;">
+                            <div>
+                                <h5 style="margin-bottom: 0.2rem;">{{ hotel.name }}</h5>
+                                <div style="color: #fbbf24; font-size: 0.8rem;">
+                                    <i class="fas fa-star"></i> {{ hotel.rating }}
+                                </div>
+                            </div>
+                            <div style="text-align: right;">
+                                <span style="display: block; font-weight: 800; color: var(--primary);">{{ hotel.price }}</span>
+                                <small style="color: var(--text-muted);">per night</small>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- Nearby Attractions -->
+                {% if place.nearby_attractions %}
+                <div style="margin-bottom: 2.5rem;">
+                    <h4 style="margin-bottom: 1.5rem; color: var(--text-main);"><i class="fas fa-star" style="color: var(--accent);"></i> Near Best Places to Visit</h4>
+                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem;">
+                        {% for attraction in place.nearby_attractions %}
+                        <div style="position: relative; height: 160px; border-radius: 1.5rem; overflow: hidden; box-shadow: var(--shadow-md); border: 2px solid var(--card-border);">
+                            <img src="{{ attraction.image }}" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s;">
+                            <div style="position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(transparent, rgba(0,0,0,0.8)); color: white; padding: 1.2rem; font-size: 0.95rem; font-weight: 800;">
+                                {{ attraction.name }}
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+
+                <!-- Expanded Info -->
+                <div style="background: var(--light); padding: 2rem; border-radius: var(--radius-lg); margin-bottom: 2.5rem; border: 1px solid var(--card-border);">
+                    <div style="margin-bottom: 1.5rem;">
+                        <h5 style="margin-bottom: 0.5rem; color: var(--text-main);"><i class="fas fa-camera-retro" style="color: var(--primary);"></i> Best Photo Spots</h5>
+                        <p style="color: var(--text-muted); font-size: 0.9rem;">{{ place.photo_spots }}</p>
+                    </div>
+                    <div style="margin-bottom: 1.5rem;">
+                        <h5 style="margin-bottom: 0.5rem; color: var(--text-main);"><i class="fas fa-route" style="color: var(--accent);"></i> Travel Route & Tips</h5>
+                        <p style="color: var(--text-muted); font-size: 0.9rem;">{{ place.route }}</p>
+                    </div>
+                    <div>
+                        <h5 style="margin-bottom: 0.5rem; color: var(--text-main);"><i class="fas fa-user-shield" style="color: #ef4444;"></i> Safety Tips</h5>
+                        <p style="color: var(--text-muted); font-size: 0.9rem;">{{ place.safety_tips }}</p>
+                    </div>
+                </div>
+
+                <div style="display: flex; gap: 1rem;">
+                    <a href="{% url 'ai_planner' %}?destination={{ place.name }}" class="btn btn-primary" style="flex: 1; justify-content: center;">Plan Trip</a>
+                    <button class="btn btn-outline" style="flex: 1; justify-content: center;">Save to Wishlist</button>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div style="text-align: center; padding: 6rem; background: var(--card-bg); border-radius: var(--radius-2xl); border: 2px dashed var(--card-border);">
+        <i class="fas fa-globe-americas fa-4x" style="color: var(--primary); margin-bottom: 2rem; opacity: 0.3;"></i>
+        <h2 style="color: var(--text-main);">No discovery guides found for "{{ location }}"</h2>
+        <p style="color: var(--text-muted); margin-top: 1rem;">We're constantly adding new places! Try searching for <strong>India, Canada, Japan, Switzerland,</strong> or <strong>USA</strong>.</p>
+    </div>
+    {% endif %}
+</div>
+
+
+<!-- AI Discovery Bot Floating Interface -->
+<div id="ai-bot-toggle" style="position: fixed; bottom: 2rem; right: 2rem; width: 4rem; height: 4rem; background: var(--primary-gradient); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: var(--shadow-xl); z-index: 1000; transition: transform 0.3s ease;">
+    <i class="fas fa-robot fa-2x"></i>
+</div>
+
+<div id="ai-bot-window" style="position: fixed; bottom: 7rem; right: 2rem; width: 400px; height: 550px; background: var(--card-bg); border-radius: 1.5rem; box-shadow: var(--shadow-2xl); z-index: 1000; display: none; flex-direction: column; overflow: hidden; border: 1px solid var(--card-border); animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);">
+    <div style="background: var(--dark); color: white; padding: 1.5rem; display: flex; justify-content: space-between; align-items: center;">
+        <div style="display: flex; align-items: center; gap: 1rem;">
+            <div style="width: 2.5rem; height: 2.5rem; background: var(--primary-gradient); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                <i class="fas fa-robot"></i>
+            </div>
+            <div>
+                <h4 style="margin: 0; font-size: 1rem; color: white;">AI Discovery Bot</h4>
+                <p style="margin: 0; font-size: 0.75rem; opacity: 0.7;">Online | Global Travel Expert</p>
+            </div>
+        </div>
+        <i class="fas fa-times" id="ai-bot-close" style="cursor: pointer; opacity: 0.7;"></i>
+    </div>
+    
+    <div id="ai-chat-messages" style="flex: 1; overflow-y: auto; padding: 1.5rem; display: flex; flex-direction: column; gap: 1rem; background: var(--light);">
+        <div style="background: var(--card-bg); padding: 1rem; border-radius: 1rem 1rem 1rem 0; box-shadow: var(--shadow-sm); max-width: 85%; color: var(--text-main); border: 1px solid var(--card-border);">
+            Hello! I'm your AI Travel Assistant. I can help you find amazing places anywhere in the world! 🌍
+        </div>
+        <div style="background: var(--card-bg); padding: 1rem; border-radius: 1rem 1rem 1rem 0; box-shadow: var(--shadow-sm); max-width: 85%; color: var(--text-main); border: 1px solid var(--card-border);">
+            Try asking me for "places in Japan", "historical spots in Jaipur", or "best views in London".
+        </div>
+    </div>
+
+    <div style="padding: 1.5rem; background: var(--card-bg); border-top: 1px solid var(--card-border);">
+        <form id="ai-bot-form" style="display: flex; gap: 0.5rem;">
+            {% csrf_token %}
+            <input type="text" id="ai-bot-input" placeholder="Type your travel query..." style="flex: 1; padding: 0.8rem 1.2rem; border-radius: 2rem; border: 1px solid var(--card-border); background: var(--input-bg); color: var(--text-main); outline: none; font-size: 0.9rem;">
+            <button type="submit" style="width: 3rem; height: 3rem; border-radius: 50%; border: none; background: var(--primary-gradient); color: white; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: transform 0.2s;">
+                <i class="fas fa-paper-plane"></i>
+            </button>
+        </form>
+    </div>
+</div>
+
+<style>
+    @keyframes slideUp {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    .bot-place-card {
+        background: var(--card-bg);
+        border-radius: 1rem;
+        overflow: hidden;
+        margin-top: 1rem;
+        border: 1px solid var(--card-border);
+        box-shadow: var(--shadow-md);
+        transition: transform 0.2s;
+    }
+    .bot-place-card:hover {
+        transform: translateY(-3px);
+    }
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const toggle = document.getElementById('ai-bot-toggle');
+    const window = document.getElementById('ai-bot-window');
+    const close = document.getElementById('ai-bot-close');
+    const form = document.getElementById('ai-bot-form');
+    const input = document.getElementById('ai-bot-input');
+    const chat = document.getElementById('ai-chat-messages');
+
+    toggle.addEventListener('click', () => {
+        window.style.display = window.style.display === 'none' ? 'flex' : 'none';
+        toggle.style.transform = window.style.display === 'flex' ? 'scale(0.9)' : 'scale(1)';
+    });
+
+    close.addEventListener('click', () => {
+        window.style.display = 'none';
+        toggle.style.transform = 'scale(1)';
+    });
+
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const message = input.value.trim();
+        if (!message) return;
+
+        // Add user message
+        const userMsg = document.createElement('div');
+        userMsg.style.cssText = 'background: var(--primary-gradient); color: white; padding: 1rem; border-radius: 1rem 1rem 0 1rem; box-shadow: var(--shadow-sm); max-width: 85%; align-self: flex-end;';
+        userMsg.textContent = message;
+        chat.appendChild(userMsg);
+        input.value = '';
+        chat.scrollTop = chat.scrollHeight;
+
+        // Add loading indicator
+        const loading = document.createElement('div');
+        loading.style.cssText = 'background: var(--card-bg); color: var(--text-main); padding: 1rem; border-radius: 1rem 1rem 1rem 0; box-shadow: var(--shadow-sm); max-width: 85%; border: 1px solid var(--card-border);';
+        loading.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Thinking...';
+        chat.appendChild(loading);
+        chat.scrollTop = chat.scrollHeight;
+
+        // Fetch from API
+        fetch('{% url "discovery_bot_api" %}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+            },
+            body: 'message=' + encodeURIComponent(message)
+        })
+        .then(response => response.json())
+        .then(data => {
+            chat.removeChild(loading);
+            
+            const botMsg = document.createElement('div');
+            botMsg.style.cssText = 'background: var(--card-bg); color: var(--text-main); padding: 1rem; border-radius: 1rem 1rem 1rem 0; box-shadow: var(--shadow-sm); max-width: 85%; border: 1px solid var(--card-border);';
+            botMsg.textContent = data.reply;
+            chat.appendChild(botMsg);
+
+            if (data.places) {
+                data.places.forEach(place => {
+                    const card = document.createElement('div');
+                    card.className = 'bot-place-card';
+                    card.innerHTML = `
+                        <img src="${place.image}" style="width: 100%; height: 120px; object-fit: cover;">
+                        <div style="padding: 1rem;">
+                            <h5 style="margin: 0 0 0.3rem 0; font-size: 0.95rem; color: var(--text-main);">${place.name}</h5>
+                            <p style="margin: 0 0 0.8rem 0; font-size: 0.75rem; color: var(--text-muted); line-height: 1.4;">${place.description.substring(0, 80)}...</p>
+                            
+                            <div style="display: flex; gap: 0.5rem; margin-bottom: 0.8rem;">
+                                <div style="background: var(--light); padding: 0.3rem; border-radius: 0.4rem; flex: 1; text-align: center; font-size: 0.65rem; border: 1px solid var(--card-border);">
+                                    <i class="fas fa-plane" style="color: var(--primary);"></i> Flights
+                                </div>
+                                <div style="background: var(--light); padding: 0.3rem; border-radius: 0.4rem; flex: 1; text-align: center; font-size: 0.65rem; border: 1px solid var(--card-border);">
+                                    <i class="fas fa-train" style="color: var(--secondary);"></i> Trains
+                                </div>
+                                <div style="background: var(--light); padding: 0.3rem; border-radius: 0.4rem; flex: 1; text-align: center; font-size: 0.65rem; border: 1px solid var(--card-border);">
+                                    <i class="fas fa-bus" style="color: var(--accent);"></i> Buses
+                                </div>
+                            </div>
+
+                            <div style="font-size: 0.7rem; color: var(--text-muted); margin-bottom: 0.8rem;">
+                                <i class="fas fa-hotel"></i> Stay: <strong>${place.hotels[0].name}</strong> (${place.hotels[0].price})
+                            </div>
+
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <span style="font-size: 0.8rem; font-weight: 700; color: var(--primary);">${place.budget}</span>
+                                <a href="{% url 'ai_planner' %}?destination=${encodeURIComponent(place.name)}" style="font-size: 0.75rem; color: var(--secondary); font-weight: 700; text-decoration: none;">Plan Now →</a>
+                            </div>
+                        </div>
+                    `;
+                    chat.appendChild(card);
+                });
+            }
+            chat.scrollTop = chat.scrollHeight;
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            chat.removeChild(loading);
+            const errorMsg = document.createElement('div');
+            errorMsg.style.cssText = 'background: #fee2e2; color: #991b1b; padding: 1rem; border-radius: 1rem 1rem 1rem 0; box-shadow: var(--shadow-sm); max-width: 85%;';
+            errorMsg.textContent = 'Oops! Something went wrong. Please try again.';
+            chat.appendChild(errorMsg);
+        });
+    });
+});
+</script>
+{% endblock %}

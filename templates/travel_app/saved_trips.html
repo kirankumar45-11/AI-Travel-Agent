@@ -1,0 +1,84 @@
+{% extends 'travel_app/base.html' %}
+
+{% block title %}My Itineraries — TravelAI{% endblock %}
+
+{% block content %}
+<div class="container" style="padding: 6rem 0;">
+    <div class="dashboard-grid">
+        <!-- Sidebar (Reused) -->
+        <aside class="sidebar animate-slide">
+            <div style="text-align: center; margin-bottom: 2rem;">
+                {% if user.profile.profile_pic %}
+                    <img src="{{ user.profile.profile_pic.url }}" style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover; border: 4px solid var(--card-border);">
+                {% else %}
+                    <div style="width: 100px; height: 100px; border-radius: 50%; background: var(--input-bg); display: flex; align-items: center; justify-content: center; margin: 0 auto; font-size: 2.5rem; color: var(--text-muted);">
+                        <i class="fas fa-user"></i>
+                    </div>
+                {% endif %}
+                <h3 style="margin-top: 1rem; color: var(--text-main);">{{ user.username }}</h3>
+                <p style="font-size: 0.85rem; color: var(--text-muted);">Member since {{ user.date_joined|date:"Y" }}</p>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <li><a href="{% url 'dashboard' %}"><i class="fas fa-th-large"></i> Overview</a></li>
+                <li><a href="{% url 'ai_planner' %}"><i class="fas fa-magic"></i> New Plan Trip</a></li>
+                <li><a href="{% url 'saved_trips' %}" class="active"><i class="fas fa-map"></i> My Itineraries</a></li>
+                <li><a href="{% url 'profile' %}"><i class="fas fa-user-edit"></i> Edit Profile</a></li>
+                <li><a href="#"><i class="fas fa-cog"></i> Settings</a></li>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 3rem;">
+                <div>
+                    <h1 style="font-size: 2.5rem; color: var(--text-main);">My Itineraries</h1>
+                    <p style="color: var(--text-muted);">All your AI-crafted journeys in one place.</p>
+                </div>
+                <a href="{% url 'ai_planner' %}" class="btn btn-primary"><i class="fas fa-plus"></i> New Plan Trip</a>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 2rem;">
+                {% for trip in trips %}
+                <div class="card animate-fade">
+                    <div class="card-content" style="padding: 2.5rem;">
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.5rem;">
+                            <div>
+                                <h3 style="font-size: 1.5rem; margin-bottom: 0.3rem; color: var(--text-main);">{{ trip.destination_name }}</h3>
+                                <p style="color: var(--text-muted); font-size: 0.85rem;"><i class="fas fa-calendar-alt"></i> {{ trip.start_date }} — {{ trip.end_date }}</p>
+                            </div>
+                            <div style="background: var(--primary); color: white; padding: 0.3rem 0.8rem; border-radius: 0.5rem; font-size: 0.7rem; font-weight: 800;">{{ trip.travel_type }}</div>
+                        </div>
+
+                        <div style="display: flex; gap: 1rem; margin-bottom: 2rem;">
+                            <div style="background: var(--input-bg); padding: 1rem; border-radius: 0.8rem; flex: 1; text-align: center; border: 1px solid var(--card-border);">
+                                <small style="color: var(--text-muted); font-weight: 700; text-transform: uppercase; font-size: 0.65rem;">Budget</small>
+                                <p style="font-weight: 800; font-size: 1.2rem; color: var(--text-main);">$ {{ trip.budget }}</p>
+                            </div>
+                            <div style="background: var(--input-bg); padding: 1rem; border-radius: 0.8rem; flex: 1; text-align: center; border: 1px solid var(--card-border);">
+                                <small style="color: var(--text-muted); font-weight: 700; text-transform: uppercase; font-size: 0.65rem;">Days</small>
+                                <p style="font-weight: 800; font-size: 1.2rem; color: var(--text-main);">{{ trip.duration|add:1 }}</p>
+                            </div>
+                        </div>
+
+                        <div style="display: flex; gap: 1rem;">
+                            <a href="{% url 'itinerary_detail' trip.id %}" class="btn btn-primary" style="flex: 1.5; justify-content: center; font-size: 0.85rem;">View Plan</a>
+                            <a href="{% url 'payment' trip.id %}" class="btn btn-outline" style="flex: 1; justify-content: center; font-size: 0.85rem;"><i class="fas fa-credit-card"></i> Book</a>
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                <div style="grid-column: 1 / -1; padding: 6rem; text-align: center; background: white; border-radius: var(--radius-2xl);">
+                    <div style="width: 100px; height: 100px; background: #f1f5f9; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 2rem; font-size: 2.5rem; color: #cbd5e1;">
+                        <i class="fas fa-map-marked"></i>
+                    </div>
+                    <h2>No saved itineraries</h2>
+                    <p style="color: #64748b; margin-top: 1rem; max-width: 400px; margin-left: auto; margin-right: auto;">Explore the world with our AI planner. Your generated plans will appear here.</p>
+                    <a href="{% url 'ai_planner' %}" class="btn btn-primary" style="margin-top: 2rem; padding: 1rem 3rem;">Plan Your First Trip</a>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

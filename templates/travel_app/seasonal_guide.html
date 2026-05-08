@@ -1,0 +1,77 @@
+{% extends 'travel_app/base.html' %}
+
+{% block title %}Seasonal Guide — TravelAI{% endblock %}
+
+{% block content %}
+<div class="container" style="padding: 6rem 0;">
+    <div style="text-align: center; margin-bottom: 5rem;">
+        <h1 style="font-size: 3.5rem; margin-bottom: 1.5rem;">Smart <span>Seasonal</span> Guide</h1>
+        <p style="color: #64748b; font-size: 1.2rem; max-width: 700px; margin: 0 auto;">Discover the perfect destinations tailored to the time of year. Whether you're chasing the sun or seeking the snow.</p>
+    </div>
+
+    <!-- Filters -->
+    <div style="background: white; padding: 2rem; border-radius: var(--radius-2xl); box-shadow: var(--shadow-xl); margin-bottom: 4rem;">
+        <div style="display: flex; justify-content: center; gap: 3rem; flex-wrap: wrap;">
+            <!-- Season Selector -->
+            <div>
+                <p style="font-weight: 700; color: #94a3b8; font-size: 0.8rem; text-transform: uppercase; margin-bottom: 1rem; text-align: center;">Select Season</p>
+                <div style="display: flex; background: #f1f5f9; padding: 0.4rem; border-radius: 1rem;">
+                    {% for season in seasons %}
+                    <a href="?season={{ season }}&region={{ selected_region }}" 
+                       style="padding: 0.8rem 2rem; border-radius: 0.8rem; text-decoration: none; font-weight: 700; font-size: 0.9rem; transition: all 0.3s;
+                              {% if selected_season == season %}background: white; color: var(--primary); box-shadow: var(--shadow-sm);{% else %}color: #64748b;{% endif %}">
+                        {% if season == 'Summer' %}<i class="fas fa-sun"></i>{% elif season == 'Winter' %}<i class="fas fa-snowflake"></i>{% else %}<i class="fas fa-cloud-showers-heavy"></i>{% endif %} {{ season }}
+                    </a>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Region Selector -->
+            <div>
+                <p style="font-weight: 700; color: #94a3b8; font-size: 0.8rem; text-transform: uppercase; margin-bottom: 1rem; text-align: center;">Select Region</p>
+                <div style="display: flex; background: #f1f5f9; padding: 0.4rem; border-radius: 1rem;">
+                    {% for region in regions %}
+                    <a href="?season={{ selected_season }}&region={{ region }}" 
+                       style="padding: 0.8rem 2rem; border-radius: 0.8rem; text-decoration: none; font-weight: 700; font-size: 0.9rem; transition: all 0.3s;
+                              {% if selected_region == region %}background: var(--primary-gradient); color: white; box-shadow: var(--shadow-md);{% else %}color: #64748b;{% endif %}">
+                        {{ region }}
+                    </a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recommendations Grid -->
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 3rem;">
+        {% for place in recommendations %}
+        <div class="card animate-fade" style="overflow: hidden; border: none; box-shadow: var(--shadow-lg);">
+            <div style="position: relative; height: 280px;">
+                <img src="{{ place.image }}" alt="{{ place.name }}" style="width: 100%; height: 100%; object-fit: cover;">
+                <div style="position: absolute; top: 1.5rem; right: 1.5rem; background: rgba(255,255,255,0.9); padding: 0.5rem 1rem; border-radius: 0.8rem; font-weight: 700; font-size: 0.8rem; color: var(--primary);">
+                    Best in {{ selected_season }}
+                </div>
+            </div>
+            <div class="card-content" style="padding: 2.5rem;">
+                <h3 style="font-size: 1.8rem; margin-bottom: 1rem;">{{ place.name }}</h3>
+                <p style="color: #64748b; line-height: 1.7; margin-bottom: 2rem;">{{ place.description }}</p>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <span style="display: flex; align-items: center; gap: 0.5rem; color: var(--accent); font-weight: 700;">
+                        <i class="fas fa-check-circle"></i> Highly Rated
+                    </span>
+                    <a href="{% url 'ai_planner' %}?destination={{ place.name }}&scope={% if selected_region == 'India' %}Inside India{% else %}Outside India{% endif %}" class="btn btn-primary" style="padding: 0.8rem 1.5rem;">
+                        Plan This Trip <i class="fas fa-arrow-right" style="margin-left: 0.5rem; font-size: 0.8rem;"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div style="grid-column: 1 / -1; padding: 6rem; text-align: center; background: white; border-radius: var(--radius-2xl);">
+            <i class="fas fa-map-marked-alt fa-4x" style="color: #e2e8f0; margin-bottom: 2rem;"></i>
+            <h2>No recommendations found</h2>
+            <p style="color: #64748b;">Try selecting a different season or region.</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

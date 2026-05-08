@@ -1,0 +1,101 @@
+{% extends 'travel_app/base.html' %}
+
+{% block title %}Invoice #{{ payment.transaction_id }} — TravelAI{% endblock %}
+
+{% block content %}
+<div class="container" style="padding: 6rem 0;">
+    <div id="invoice-card" class="animate-fade" style="background: var(--white); padding: 5rem; border-radius: var(--radius-2xl); box-shadow: var(--shadow-xl); border: 1px solid #f1f5f9; position: relative; max-width: 900px; margin: 0 auto;">
+        <!-- Watermark -->
+        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-45deg); font-size: 8rem; color: #f1f5f9; font-weight: 900; z-index: 0; pointer-events: none; opacity: 0.5;">PAID</div>
+
+        <div style="position: relative; z-index: 1;">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 5rem;">
+                <div>
+                    <a href="#" class="nav-logo" style="font-size: 2.5rem; margin-bottom: 0.5rem;">
+                        <i class="fas fa-paper-plane"></i> Travel<span>AI</span>
+                    </a>
+                    <p style="color: #64748b; font-size: 0.9rem;">123 Innovation Drive, Silicon Valley, CA</p>
+                    <p style="color: #64748b; font-size: 0.9rem;">support@travelai.com</p>
+                </div>
+                <div style="text-align: right;">
+                    <h1 style="font-size: 3rem; color: var(--dark); margin-bottom: 0.5rem;">Invoice</h1>
+                    <p style="color: var(--primary); font-weight: 800; font-size: 1.1rem;">#{{ payment.transaction_id }}</p>
+                    <p style="color: #64748b; margin-top: 0.5rem;">Date: {{ payment.payment_date|date:"F d, Y" }}</p>
+                </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; margin-bottom: 5rem;">
+                <div>
+                    <h4 style="color: #94a3b8; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 1rem; font-size: 0.8rem;">Billed To</h4>
+                    <p style="font-size: 1.1rem; font-weight: 700; color: var(--dark);">{{ user.get_full_name|default:user.username }}</p>
+                    <p style="color: #64748b;">{{ user.email }}</p>
+                </div>
+                <div style="text-align: right;">
+                    <h4 style="color: #94a3b8; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 1rem; font-size: 0.8rem;">Trip Overview</h4>
+                    <p style="font-size: 1.1rem; font-weight: 700; color: var(--dark);">{{ trip.destination_name }}</p>
+                    <p style="color: #64748b;">{{ trip.duration|add:1 }} Days • {{ trip.travel_type }} Style</p>
+                </div>
+            </div>
+
+            <table style="width: 100%; border-collapse: collapse; margin-bottom: 4rem;">
+                <thead>
+                    <tr style="border-bottom: 2px solid var(--dark); text-align: left;">
+                        <th style="padding: 1.5rem 0; color: var(--dark); font-weight: 800;">DESCRIPTION</th>
+                        <th style="padding: 1.5rem 0; color: var(--dark); font-weight: 800; text-align: center;">QTY</th>
+                        <th style="padding: 1.5rem 0; color: var(--dark); font-weight: 800; text-align: right;">AMOUNT</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr style="border-bottom: 1px solid #f1f5f9;">
+                        <td style="padding: 2rem 0;">
+                            <h5 style="font-size: 1.1rem; margin-bottom: 0.4rem;">AI Itinerary & Concierge Package</h5>
+                            <p style="color: #64748b; font-size: 0.9rem; max-width: 400px;">Complete {{ trip.duration|add:1 }}-day personalized plan for {{ trip.destination_name }} including hotel coordination and activity mapping.</p>
+                        </td>
+                        <td style="padding: 2rem 0; text-align: center; font-weight: 600;">1</td>
+                        <td style="padding: 2rem 0; text-align: right; font-weight: 700; font-size: 1.1rem;">${{ trip.budget }}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div style="display: flex; justify-content: flex-end;">
+                <div style="width: 300px;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 1rem;">
+                        <span style="color: #64748b;">Subtotal</span>
+                        <span style="font-weight: 600;">${{ trip.budget }}</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 1.5rem;">
+                        <span style="color: #64748b;">Tax (0%)</span>
+                        <span style="font-weight: 600;">$0.00</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; padding-top: 1.5rem; border-top: 2px solid var(--dark); align-items: center;">
+                        <span style="font-weight: 800; font-size: 1.2rem;">Total Paid</span>
+                        <span style="font-weight: 800; font-size: 2.5rem; color: var(--primary);">${{ trip.budget }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-top: 5rem; text-align: center; border-top: 1px solid #f1f5f9; padding-top: 3rem;">
+                <h4 style="margin-bottom: 1rem;">Thank you for trusting TravelAI</h4>
+                <p style="color: #64748b; font-size: 0.9rem;">Your journey starts here. Don't forget to check your dashboard for the latest updates on your itinerary.</p>
+                <div style="margin-top: 2rem; display: flex; justify-content: center; gap: 1rem;">
+                    <i class="fas fa-qrcode fa-4x" style="opacity: 0.1;"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div style="margin-top: 4rem; text-align: center; display: flex; justify-content: center; gap: 1.5rem;" class="no-print">
+        <button onclick="window.print()" class="btn btn-primary btn-lg" style="padding: 1rem 3rem;"><i class="fas fa-print"></i> Print Invoice</button>
+        <a href="{% url 'dashboard' %}" class="btn btn-outline btn-lg" style="padding: 1rem 3rem;">Back to Dashboard</a>
+    </div>
+</div>
+
+<style>
+@media print {
+    body { background: white; }
+    .navbar, footer, .no-print, #chatbot-launcher { display: none !important; }
+    #invoice-card { box-shadow: none !important; border: none !important; padding: 0 !important; max-width: 100% !important; }
+    .container { padding: 0 !important; }
+}
+</style>
+{% endblock %}

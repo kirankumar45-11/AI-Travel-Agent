@@ -1,0 +1,581 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In — TravelAI</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: #0f172a;
+            min-height: 100vh;
+            display: flex;
+            overflow: hidden;
+        }
+
+        /* ── LEFT PANEL ── */
+        .left-panel {
+            flex: 1;
+            position: relative;
+            background: url('https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80') center/cover no-repeat;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 3rem;
+            overflow: hidden;
+        }
+
+        .left-panel::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(99,102,241,0.85) 0%, rgba(15,23,42,0.9) 100%);
+            z-index: 1;
+        }
+
+        .left-panel > * { position: relative; z-index: 2; }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+        }
+
+        .brand-icon {
+            width: 44px; height: 44px;
+            background: rgba(255,255,255,0.15);
+            border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .brand-name {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: white;
+        }
+
+        .left-content { max-width: 480px; }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: rgba(255,255,255,0.9);
+            padding: 0.4rem 1rem;
+            border-radius: 2rem;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .left-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 3.2rem;
+            font-weight: 800;
+            color: white;
+            line-height: 1.15;
+            margin-bottom: 1.5rem;
+        }
+
+        .left-title span {
+            background: linear-gradient(90deg, #a5b4fc, #f0abfc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .left-desc {
+            color: rgba(255,255,255,0.75);
+            font-size: 1rem;
+            line-height: 1.7;
+            margin-bottom: 3rem;
+        }
+
+        /* Floating Stat Cards */
+        .stats-row {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .stat-card {
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.15);
+            backdrop-filter: blur(12px);
+            border-radius: 1rem;
+            padding: 1.25rem 1.5rem;
+            flex: 1;
+        }
+
+        .stat-number {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.75rem;
+            font-weight: 800;
+            color: white;
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            color: rgba(255,255,255,0.6);
+            font-weight: 600;
+            margin-top: 0.2rem;
+        }
+
+        /* Destination pill cards at bottom */
+        .destinations-row {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .dest-pill {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.15);
+            backdrop-filter: blur(8px);
+            padding: 0.5rem 1rem;
+            border-radius: 2rem;
+            color: white;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .dest-pill i { color: #f0abfc; }
+
+        /* ── RIGHT PANEL ── */
+        .right-panel {
+            width: 520px;
+            min-height: 100vh;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 3rem;
+            overflow-y: auto;
+        }
+
+        .form-box { width: 100%; max-width: 400px; }
+
+        .form-header { margin-bottom: 2.5rem; }
+
+        .form-header .greeting {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #6366f1;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .form-header h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2.25rem;
+            font-weight: 800;
+            color: #0f172a;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-header p {
+            color: #64748b;
+            font-size: 0.95rem;
+        }
+
+        .form-header p a {
+            color: #6366f1;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        /* Messages */
+        .alert {
+            padding: 0.9rem 1.2rem;
+            border-radius: 0.75rem;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .alert-error { background: #fee2e2; color: #991b1b; }
+        .alert-success { background: #d1fae5; color: #065f46; }
+
+        /* Form Fields */
+        .field { margin-bottom: 1.5rem; }
+
+        .field label {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: #374151;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            margin-bottom: 0.6rem;
+        }
+
+        .input-wrap {
+            position: relative;
+        }
+
+        .input-wrap .icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #94a3b8;
+            font-size: 0.9rem;
+            pointer-events: none;
+        }
+
+        .input-wrap input {
+            width: 100%;
+            padding: 0.9rem 1rem 0.9rem 2.75rem;
+            border: 2px solid #f1f5f9;
+            border-radius: 0.875rem;
+            font-size: 0.95rem;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 500;
+            color: #0f172a;
+            background: #f8fafc;
+            transition: all 0.25s;
+            outline: none;
+        }
+
+        .input-wrap input:focus {
+            border-color: #6366f1;
+            background: white;
+            box-shadow: 0 0 0 4px rgba(99,102,241,0.1);
+        }
+
+        .input-wrap .toggle-pw {
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #94a3b8;
+            cursor: pointer;
+            font-size: 0.9rem;
+            border: none;
+            background: none;
+            padding: 0;
+        }
+
+        .toggle-pw:hover { color: #6366f1; }
+
+        /* Remember / Forgot row */
+        .meta-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #475569;
+        }
+
+        .remember-me input[type="checkbox"] { accent-color: #6366f1; width: 16px; height: 16px; cursor: pointer; }
+
+        .forgot-link {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #6366f1;
+            text-decoration: none;
+        }
+
+        .forgot-link:hover { text-decoration: underline; }
+
+        /* Submit Button */
+        .btn-submit {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, #6366f1, #a855f7);
+            color: white;
+            border: none;
+            border-radius: 0.875rem;
+            font-size: 1rem;
+            font-weight: 700;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(99,102,241,0.35);
+            letter-spacing: 0.3px;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(99,102,241,0.45);
+        }
+
+        .btn-submit:active { transform: translateY(0); }
+
+        /* Divider */
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin: 1.75rem 0;
+            color: #94a3b8;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .divider::before, .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: #f1f5f9;
+        }
+
+        /* Social logins */
+        .social-row { display: flex; gap: 1rem; }
+
+        .btn-social {
+            flex: 1;
+            padding: 0.8rem;
+            border: 2px solid #f1f5f9;
+            background: white;
+            border-radius: 0.875rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #374151;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            transition: all 0.25s;
+        }
+
+        .btn-social:hover { background: #f8fafc; border-color: #e2e8f0; }
+
+        /* Bottom register link */
+        .register-prompt {
+            text-align: center;
+            margin-top: 2rem;
+            font-size: 0.9rem;
+            color: #64748b;
+        }
+
+        .register-prompt a {
+            color: #6366f1;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        /* Trust badges */
+        .trust-row {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #f1f5f9;
+        }
+
+        .trust-item {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #94a3b8;
+        }
+
+        .trust-item i { color: #10b981; font-size: 0.85rem; }
+
+        /* Animations */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .form-box { animation: fadeUp 0.6s ease-out; }
+
+        @media (max-width: 900px) {
+            .left-panel { display: none; }
+            .right-panel { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ═══ LEFT PANEL ═══ -->
+<div class="left-panel">
+    <a href="/" class="brand">
+        <div class="brand-icon"><i class="fas fa-paper-plane fa-lg" style="color:white;"></i></div>
+        <span class="brand-name">TravelAI</span>
+    </a>
+
+    <div class="left-content">
+        <div class="badge"><i class="fas fa-robot"></i> AI-Powered Platform</div>
+        <h1 class="left-title">Your Next <span>Adventure</span> Awaits</h1>
+        <p class="left-desc">Join 10,000+ travellers who plan smarter, travel cheaper, and explore deeper with the power of artificial intelligence.</p>
+
+        <div class="stats-row">
+            <div class="stat-card">
+                <div class="stat-number">500+</div>
+                <div class="stat-label">Destinations</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">24/7</div>
+                <div class="stat-label">AI Support</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">98%</div>
+                <div class="stat-label">Satisfaction</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="destinations-row">
+        <div class="dest-pill"><i class="fas fa-torii-gate"></i> Tokyo</div>
+        <div class="dest-pill"><i class="fas fa-eiffel-tower"></i> Paris</div>
+        <div class="dest-pill"><i class="fas fa-umbrella-beach"></i> Bali</div>
+        <div class="dest-pill"><i class="fas fa-city"></i> New York</div>
+        <div class="dest-pill"><i class="fas fa-mosque"></i> Dubai</div>
+    </div>
+</div>
+
+<!-- ═══ RIGHT PANEL ═══ -->
+<div class="right-panel">
+    <div class="form-box">
+
+        <div class="form-header">
+            <div class="greeting"><i class="fas fa-wave-square"></i> Welcome back</div>
+            <h1>Sign in to TravelAI</h1>
+            <p>New here? <a href="{% url 'register' %}">Create a free account</a></p>
+        </div>
+
+        <!-- Django Messages -->
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert {% if message.tags == 'success' %}alert-success{% else %}alert-error{% endif %}">
+                    <i class="fas {% if message.tags == 'success' %}fa-check-circle{% else %}fa-exclamation-circle{% endif %}"></i>
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <form method="POST" id="login-form">
+            {% csrf_token %}
+
+            {% if form.non_field_errors %}
+                <div class="alert alert-error">
+                    <i class="fas fa-exclamation-circle"></i>
+                    {{ form.non_field_errors.0 }}
+                </div>
+            {% endif %}
+
+            <div class="field">
+                <label>Username</label>
+                <div class="input-wrap">
+                    <i class="fas fa-user icon"></i>
+                    <input type="text" name="username" id="id_username"
+                           placeholder="Enter your username"
+                           value="{{ form.username.value|default:'' }}"
+                           autocomplete="username" required>
+                </div>
+                {% if form.username.errors %}
+                    <p style="color:#ef4444;font-size:0.8rem;margin-top:0.4rem;font-weight:600;">{{ form.username.errors.0 }}</p>
+                {% endif %}
+            </div>
+
+            <div class="field">
+                <label>Password</label>
+                <div class="input-wrap">
+                    <i class="fas fa-lock icon"></i>
+                    <input type="password" name="password" id="id_password"
+                           placeholder="Enter your password"
+                           autocomplete="current-password" required>
+                    <button type="button" class="toggle-pw" onclick="togglePassword()" id="pw-toggle">
+                        <i class="fas fa-eye" id="pw-icon"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="meta-row">
+                <label class="remember-me">
+                    <input type="checkbox" name="remember"> Remember me
+                </label>
+                <a href="#" class="forgot-link">Forgot password?</a>
+            </div>
+
+            <button type="submit" class="btn-submit" id="submit-btn">
+                <i class="fas fa-sign-in-alt"></i> Sign In
+            </button>
+        </form>
+
+        <div class="divider">or continue with</div>
+
+        <div class="social-row">
+            <button class="btn-social">
+                <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9.1 3.2l6.7-6.7C35.8 2.5 30.2 0 24 0 14.7 0 6.7 5.4 2.9 13.3l7.8 6c1.8-5.4 6.8-9.8 13.3-9.8z"/><path fill="#4285F4" d="M46.1 24.5c0-1.6-.1-3.1-.4-4.5H24v8.5h12.5c-.5 2.8-2.1 5.2-4.5 6.8l7 5.4c4.1-3.8 6.5-9.4 6.5-16.2z"/><path fill="#FBBC05" d="M10.7 28.5c-.5-1.5-.8-3.1-.8-4.5s.3-3 .8-4.5l-7.8-6C1 16.5 0 20.1 0 24s1 7.5 2.9 10.5l7.8-6z"/><path fill="#34A853" d="M24 48c6.2 0 11.4-2 15.2-5.5l-7-5.4c-2 1.4-4.6 2.2-8.2 2.2-6.5 0-12-4.4-13.9-10.3l-7.8 6C6.7 42.6 14.7 48 24 48z"/></svg>
+                Google
+            </button>
+            <button class="btn-social">
+                <i class="fab fa-github fa-lg" style="color:#0f172a;"></i>
+                GitHub
+            </button>
+        </div>
+
+        <div class="trust-row">
+            <div class="trust-item"><i class="fas fa-shield-alt"></i> SSL Secured</div>
+            <div class="trust-item"><i class="fas fa-lock"></i> Encrypted</div>
+            <div class="trust-item"><i class="fas fa-eye-slash"></i> No Spam</div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function togglePassword() {
+        const input = document.getElementById('id_password');
+        const icon = document.getElementById('pw-icon');
+        if (input.type === 'password') {
+            input.type = 'text';
+            icon.classList.replace('fa-eye', 'fa-eye-slash');
+        } else {
+            input.type = 'password';
+            icon.classList.replace('fa-eye-slash', 'fa-eye');
+        }
+    }
+
+    // Button loading state on submit
+    document.getElementById('login-form').addEventListener('submit', function() {
+        const btn = document.getElementById('submit-btn');
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Signing in...';
+        btn.disabled = true;
+    });
+</script>
+</body>
+</html>

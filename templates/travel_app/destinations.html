@@ -1,0 +1,67 @@
+{% extends 'travel_app/base.html' %}
+
+{% block title %}My Destinations — TravelAI{% endblock %}
+
+{% block content %}
+<div class="container" style="padding: 6rem 0;">
+    <div class="dashboard-grid">
+        <aside class="sidebar animate-slide">
+            <div style="text-align: center; margin-bottom: 2rem;">
+                {% if user.profile.profile_pic %}
+                    <img src="{{ user.profile.profile_pic.url }}" style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover; border: 4px solid #f1f5f9;">
+                {% else %}
+                    <div style="width: 100px; height: 100px; border-radius: 50%; background: #f1f5f9; display: flex; align-items: center; justify-content: center; margin: 0 auto; font-size: 2.5rem; color: #cbd5e1;">
+                        <i class="fas fa-user"></i>
+                    </div>
+                {% endif %}
+                <h3 style="margin-top: 1rem;">{{ user.username }}</h3>
+                <p style="font-size: 0.85rem; color: #64748b;">Premium Member</p>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <li><a href="{% url 'dashboard' %}"><i class="fas fa-th-large"></i> Overview</a></li>
+                <li><a href="{% url 'ai_planner' %}"><i class="fas fa-magic"></i> New Plan Trip</a></li>
+                <li><a href="{% url 'saved_trips' %}"><i class="fas fa-map"></i> My Itineraries</a></li>
+                <li><a href="{% url 'profile' %}"><i class="fas fa-user-edit"></i> Edit Profile</a></li>
+                <li><a href="#"><i class="fas fa-cog"></i> Settings</a></li>
+            </nav>
+        </aside>
+
+        <div class="main-content">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 3rem;">
+                <div>
+                    <h1 style="font-size: 2.5rem;">Explored Destinations</h1>
+                    <p style="color: #64748b;">You have explored {{ total }} unique destinations.</p>
+                </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 2rem;">
+                {% for trip in destinations %}
+                <div class="card animate-fade">
+                    <div style="height: 200px; background: #f1f5f9; display: flex; align-items: center; justify-content: center; border-radius: 1.5rem 1.5rem 0 0; color: var(--primary); font-size: 3rem;">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <div class="card-content" style="padding: 2rem;">
+                        <h3 style="margin-bottom: 0.5rem;">{{ trip.destination_name }}</h3>
+                        <p style="color: #64748b; font-size: 0.9rem; margin-bottom: 1.5rem;">Last visited: {{ trip.start_date }}</p>
+                        <div style="display: flex; gap: 1rem;">
+                            <a href="{% url 'ai_planner' %}?destination={{ trip.destination_name }}" class="btn btn-outline" style="flex: 1; justify-content: center; font-size: 0.85rem; padding: 0.8rem;">Plan Another</a>
+                            <a href="{% url 'delete_destination' trip.destination_name %}" class="btn btn-outline" style="color: var(--error); border-color: rgba(239, 68, 68, 0.2); background: rgba(239, 68, 68, 0.05); font-size: 0.85rem; padding: 0.8rem; min-width: 50px; justify-content: center;" onclick="return confirm('Are you sure you want to remove this destination? This will delete all trip records for it.')">
+                                <i class="fas fa-trash-alt"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                <div style="grid-column: 1 / -1; padding: 6rem; text-align: center; background: white; border-radius: var(--radius-2xl);">
+                    <i class="fas fa-globe-americas fa-4x" style="color: #e2e8f0; margin-bottom: 2rem;"></i>
+                    <h2>No destinations yet</h2>
+                    <p style="color: #64748b; margin-top: 1rem;">Start planning trips to see your explored destinations here.</p>
+                    <a href="{% url 'ai_planner' %}" class="btn btn-primary" style="margin-top: 2rem;">Plan a Trip</a>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
