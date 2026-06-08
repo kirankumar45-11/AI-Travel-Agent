@@ -116,9 +116,14 @@
                 <h4>Quick Links</h4>
                 <ul>
                     <li><a href="{% url 'home' %}">Home</a></li>
-                    <li><a href="{% url 'ai_planner' %}">AI Planner</a></li>
-                    <li><a href="{% url 'hotels' %}">Hotels</a></li>
-                    <li><a href="{% url 'saved_trips' %}">My Saved Trips</a></li>
+                    {% if user.is_authenticated %}
+                        <li><a href="{% url 'ai_planner' %}">AI Planner</a></li>
+                        <li><a href="{% url 'hotels' %}">Hotels</a></li>
+                        <li><a href="{% url 'saved_trips' %}">My Saved Trips</a></li>
+                    {% else %}
+                        <li><a href="{% url 'login' %}">Login</a></li>
+                        <li><a href="{% url 'register' %}">Join Free</a></li>
+                    {% endif %}
                 </ul>
             </div>
             <div class="footer-links">

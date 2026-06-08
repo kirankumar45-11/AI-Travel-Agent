@@ -52,7 +52,7 @@
                             <p style="color: #64748b; font-size: 0.9rem; max-width: 400px;">Complete {{ trip.duration|add:1 }}-day personalized plan for {{ trip.destination_name }} including hotel coordination and activity mapping.</p>
                         </td>
                         <td style="padding: 2rem 0; text-align: center; font-weight: 600;">1</td>
-                        <td style="padding: 2rem 0; text-align: right; font-weight: 700; font-size: 1.1rem;">${{ trip.budget }}</td>
+                        <td style="padding: 2rem 0; text-align: right; font-weight: 700; font-size: 1.1rem;">₹{{ trip.budget }}</td>
                     </tr>
                 </tbody>
             </table>
@@ -61,15 +61,15 @@
                 <div style="width: 300px;">
                     <div style="display: flex; justify-content: space-between; margin-bottom: 1rem;">
                         <span style="color: #64748b;">Subtotal</span>
-                        <span style="font-weight: 600;">${{ trip.budget }}</span>
+                        <span style="font-weight: 600;">₹{{ trip.budget }}</span>
                     </div>
                     <div style="display: flex; justify-content: space-between; margin-bottom: 1.5rem;">
                         <span style="color: #64748b;">Tax (0%)</span>
-                        <span style="font-weight: 600;">$0.00</span>
+                        <span style="font-weight: 600;">₹0.00</span>
                     </div>
                     <div style="display: flex; justify-content: space-between; padding-top: 1.5rem; border-top: 2px solid var(--dark); align-items: center;">
                         <span style="font-weight: 800; font-size: 1.2rem;">Total Paid</span>
-                        <span style="font-weight: 800; font-size: 2.5rem; color: var(--primary);">${{ trip.budget }}</span>
+                        <span style="font-weight: 800; font-size: 2.5rem; color: var(--primary);">₹{{ trip.budget }}</span>
                     </div>
                 </div>
             </div>

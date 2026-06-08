@@ -241,15 +241,15 @@ class DiscoveryAI:
                 'photo_spots': 'Starbucks window view.',
                 'route': 'JR Yamanote Line.',
                 'safety_tips': 'Follow traffic lights.',
-                'budget': '¥1000 - ¥3000',
+                'budget': '₹500 - ₹1,500',
                 'hotels': [
-                    {'name': 'Park Hyatt Tokyo', 'price': '¥80,000', 'rating': '4.9'},
-                    {'name': 'Shibuya Stream Excel', 'price': '¥30,000', 'rating': '4.5'}
+                    {'name': 'Park Hyatt Tokyo', 'price': '₹45,000', 'rating': '4.9'},
+                    {'name': 'Shibuya Stream Excel', 'price': '₹17,000', 'rating': '4.5'}
                 ],
                 'transport': {
-                    'flights': [{'time': '10:00 AM', 'cost': '¥50,000'}, {'time': '06:00 PM', 'cost': '¥65,000'}],
-                    'trains': [{'time': '07:00 AM', 'cost': '¥15,000'}, {'time': '09:00 PM', 'cost': '¥15,000'}],
-                    'buses': [{'time': '08:00 AM', 'cost': '¥3,000'}, {'time': '10:00 PM', 'cost': '¥3,000'}]
+                    'flights': [{'time': '10:00 AM', 'cost': '₹28,500'}, {'time': '06:00 PM', 'cost': '₹37,000'}],
+                    'trains': [{'time': '07:00 AM', 'cost': '₹8,500'}, {'time': '09:00 PM', 'cost': '₹8,500'}],
+                    'buses': [{'time': '08:00 AM', 'cost': '₹1,700'}, {'time': '10:00 PM', 'cost': '₹1,700'}]
                 }
             }
         ],
@@ -267,15 +267,15 @@ class DiscoveryAI:
                 'photo_spots': 'From the North Bank.',
                 'route': 'London Bridge Tube Station.',
                 'safety_tips': 'Mind the gap.',
-                'budget': '£10 - £30',
+                'budget': '₹1,000 - ₹3,000',
                 'hotels': [
-                    {'name': 'The Savoy', 'price': '£600', 'rating': '5.0'},
-                    {'name': 'Shangri-La at The Shard', 'price': '£700', 'rating': '4.9'}
+                    {'name': 'The Savoy', 'price': '₹60,000', 'rating': '5.0'},
+                    {'name': 'Shangri-La at The Shard', 'price': '₹70,000', 'rating': '4.9'}
                 ],
                 'transport': {
-                    'flights': [{'time': '09:00 AM', 'cost': '£400'}, {'time': '05:00 PM', 'cost': '£550'}],
-                    'trains': [{'time': '08:00 AM', 'cost': '£80'}, {'time': '10:00 PM', 'cost': '£80'}],
-                    'buses': [{'time': '07:30 AM', 'cost': '£20'}, {'time': '11:30 PM', 'cost': '£20'}]
+                    'flights': [{'time': '09:00 AM', 'cost': '₹40,000'}, {'time': '05:00 PM', 'cost': '₹55,000'}],
+                    'trains': [{'time': '08:00 AM', 'cost': '₹8,000'}, {'time': '10:00 PM', 'cost': '₹8,000'}],
+                    'buses': [{'time': '07:30 AM', 'cost': '₹2,000'}, {'time': '11:30 PM', 'cost': '₹2,000'}]
                 },
                 'nearby_attractions': [
                     {'name': 'London Eye', 'image': 'https://images.unsplash.com/photo-1505761671935-60b3a7427bad'},
@@ -291,21 +291,21 @@ class DiscoveryAI:
                 'description': 'The iconic iron lattice tower on the Champ de Mars in Paris.',
                 'distance': '0 km from Paris Center',
                 'best_time': 'Sunset',
-                'entry_fee': '€25',
+                'entry_fee': '₹2,250',
                 'famous_food': 'Croissants, Macarons',
                 'suitability': ['Couples', 'Family'],
                 'photo_spots': 'Trocadero Gardens.',
                 'route': 'Metro Line 6/9.',
                 'safety_tips': 'Beware of street scammers.',
-                'budget': '€50 - €150',
+                'budget': '₹4,500 - ₹13,500',
                 'hotels': [
-                    {'name': 'Shangri-La Paris', 'price': '€1,200', 'rating': '5.0'},
-                    {'name': 'Hotel Pullman', 'price': '€450', 'rating': '4.6'}
+                    {'name': 'Shangri-La Paris', 'price': '₹1,00,000', 'rating': '5.0'},
+                    {'name': 'Hotel Pullman', 'price': '₹40,000', 'rating': '4.6'}
                 ],
                 'transport': {
-                    'flights': [{'time': '10:00 AM', 'cost': '€350'}, {'time': '08:00 PM', 'cost': '€420'}],
-                    'trains': [{'time': '07:00 AM', 'cost': '€60'}, {'time': '09:00 PM', 'cost': '€60'}],
-                    'buses': [{'time': '08:00 AM', 'cost': '€15'}, {'time': '11:00 PM', 'cost': '€15'}]
+                    'flights': [{'time': '10:00 AM', 'cost': '₹31,500'}, {'time': '08:00 PM', 'cost': '₹38,000'}],
+                    'trains': [{'time': '07:00 AM', 'cost': '₹5,400'}, {'time': '09:00 PM', 'cost': '₹5,400'}],
+                    'buses': [{'time': '08:00 AM', 'cost': '₹1,350'}, {'time': '11:00 PM', 'cost': '₹1,350'}]
                 },
                 'nearby_attractions': [
                     {'name': 'Louvre Museum', 'image': 'https://images.unsplash.com/photo-1543349689-9a4d426bee8e'},
@@ -321,21 +321,21 @@ class DiscoveryAI:
                 'description': 'The largest ancient amphitheatre ever built, located in Rome.',
                 'distance': '0 km from Rome Center',
                 'best_time': 'Morning',
-                'entry_fee': '€16',
+                'entry_fee': '₹1,440',
                 'famous_food': 'Gelato, Carbonara',
                 'suitability': ['History buffs', 'Family'],
                 'photo_spots': 'From Via Nicola Salvi.',
                 'route': 'Metro Line B.',
                 'safety_tips': 'Book tickets in advance.',
-                'budget': '€40 - €120',
+                'budget': '₹3,600 - ₹10,800',
                 'hotels': [
-                    {'name': 'Hotel Hassler', 'price': '€900', 'rating': '4.9'},
-                    {'name': 'Hotel Artemide', 'price': '€350', 'rating': '4.7'}
+                    {'name': 'Hotel Hassler', 'price': '₹80,000', 'rating': '4.9'},
+                    {'name': 'Hotel Artemide', 'price': '₹31,500', 'rating': '4.7'}
                 ],
                 'transport': {
-                    'flights': [{'time': '09:00 AM', 'cost': '€280'}, {'time': '07:00 PM', 'cost': '€350'}],
-                    'trains': [{'time': '08:00 AM', 'cost': '€50'}, {'time': '10:00 PM', 'cost': '€50'}],
-                    'buses': [{'time': '07:00 AM', 'cost': '€10'}, {'time': '11:00 PM', 'cost': '€10'}]
+                    'flights': [{'time': '09:00 AM', 'cost': '₹25,000'}, {'time': '07:00 PM', 'cost': '₹31,500'}],
+                    'trains': [{'time': '08:00 AM', 'cost': '₹4,500'}, {'time': '10:00 PM', 'cost': '₹4,500'}],
+                    'buses': [{'time': '07:00 AM', 'cost': '₹900'}, {'time': '11:00 PM', 'cost': '₹900'}]
                 },
                 'nearby_attractions': [
                     {'name': 'Trevi Fountain', 'image': 'https://images.unsplash.com/photo-1525874684015-58379d421a52'},
@@ -357,15 +357,15 @@ class DiscoveryAI:
                 'photo_spots': 'Red stairs in center.',
                 'route': 'N, Q, R Subway lines.',
                 'safety_tips': 'Stay aware of crowds.',
-                'budget': '$50 - $200',
+                'budget': '₹4,000 - ₹16,000',
                 'hotels': [
-                    {'name': 'Marriott Marquis', 'price': '$550', 'rating': '4.5'},
-                    {'name': 'The Knickerbocker', 'price': '$650', 'rating': '4.7'}
+                    {'name': 'Marriott Marquis', 'price': '₹45,000', 'rating': '4.5'},
+                    {'name': 'The Knickerbocker', 'price': '₹55,000', 'rating': '4.7'}
                 ],
                 'transport': {
-                    'flights': [{'time': '08:00 AM', 'cost': '$450'}, {'time': '10:00 PM', 'cost': '$450'}],
-                    'trains': [{'time': '07:00 AM', 'cost': '$90'}, {'time': '09:00 PM', 'cost': '$90'}],
-                    'buses': [{'time': '06:00 AM', 'cost': '$30'}, {'time': '11:00 PM', 'cost': '$30'}]
+                    'flights': [{'time': '08:00 AM', 'cost': '₹36,000'}, {'time': '10:00 PM', 'cost': '₹36,000'}],
+                    'trains': [{'time': '07:00 AM', 'cost': '₹7,200'}, {'time': '09:00 PM', 'cost': '₹7,200'}],
+                    'buses': [{'time': '06:00 AM', 'cost': '₹2,400'}, {'time': '11:00 PM', 'cost': '₹2,400'}]
                 },
                 'nearby_attractions': [
                     {'name': 'Central Park', 'image': 'https://images.unsplash.com/photo-1526333699558-89bf1658467b'},
@@ -387,15 +387,15 @@ class DiscoveryAI:
                 'photo_spots': 'Journey Behind the Falls.',
                 'route': 'GO Train from Toronto.',
                 'safety_tips': 'Stay behind railings.',
-                'budget': 'CAD 50 - CAD 150',
+                'budget': '₹3,000 - ₹9,000',
                 'hotels': [
-                    {'name': 'Sheraton Fallsview', 'price': 'CAD 400', 'rating': '4.8'},
-                    {'name': 'Hilton Niagara Falls', 'price': 'CAD 350', 'rating': '4.7'}
+                    {'name': 'Sheraton Fallsview', 'price': '₹24,000', 'rating': '4.8'},
+                    {'name': 'Hilton Niagara Falls', 'price': '₹21,000', 'rating': '4.7'}
                 ],
                 'transport': {
-                    'flights': [{'time': '08:00 AM', 'cost': 'CAD 120'}, {'time': '06:00 PM', 'cost': 'CAD 150'}],
-                    'trains': [{'time': '07:30 AM', 'cost': 'CAD 25'}, {'time': '09:30 PM', 'cost': 'CAD 25'}],
-                    'buses': [{'time': '06:00 AM', 'cost': 'CAD 15'}, {'time': '11:00 PM', 'cost': 'CAD 15'}]
+                    'flights': [{'time': '08:00 AM', 'cost': '₹7,200'}, {'time': '06:00 PM', 'cost': '₹9,000'}],
+                    'trains': [{'time': '07:30 AM', 'cost': '₹1,500'}, {'time': '09:30 PM', 'cost': '₹1,500'}],
+                    'buses': [{'time': '06:00 AM', 'cost': '₹900'}, {'time': '11:00 PM', 'cost': '₹900'}]
                 },
                 'nearby_attractions': [
                     {'name': 'Skylon Tower', 'image': 'https://images.unsplash.com/photo-1510113333310-911802996d91'},
@@ -411,21 +411,21 @@ class DiscoveryAI:
                 'description': 'Known as the "Top of Europe", a high-altitude railway station in the Bernese Alps.',
                 'distance': '10 km from Interlaken',
                 'best_time': 'Year-round',
-                'entry_fee': 'CHF 200 (Train)',
+                'entry_fee': '₹18,000 (Train)',
                 'famous_food': 'Cheese Fondue, Chocolate',
                 'suitability': ['Adventure', 'Couples'],
                 'photo_spots': 'Sphinx Observatory.',
                 'route': 'Jungfrau Railway.',
                 'safety_tips': 'Beware of altitude sickness.',
-                'budget': 'CHF 100 - CHF 300',
+                'budget': '₹9,000 - ₹27,000',
                 'hotels': [
-                    {'name': 'Victoria-Jungfrau', 'price': 'CHF 700', 'rating': '4.9'},
-                    {'name': 'Hotel Belvedere', 'price': 'CHF 400', 'rating': '4.6'}
+                    {'name': 'Victoria-Jungfrau', 'price': '₹63,000', 'rating': '4.9'},
+                    {'name': 'Hotel Belvedere', 'price': '₹36,000', 'rating': '4.6'}
                 ],
                 'transport': {
-                    'flights': [{'time': '09:00 AM', 'cost': 'CHF 300'}, {'time': '07:00 PM', 'cost': 'CHF 400'}],
-                    'trains': [{'time': '08:00 AM', 'cost': 'CHF 80'}, {'time': '10:00 PM', 'cost': 'CHF 80'}],
-                    'buses': [{'time': '07:00 AM', 'cost': 'CHF 20'}, {'time': '11:00 PM', 'cost': 'CHF 20'}]
+                    'flights': [{'time': '09:00 AM', 'cost': '₹27,000'}, {'time': '07:00 PM', 'cost': '₹36,000'}],
+                    'trains': [{'time': '08:00 AM', 'cost': '₹7,200'}, {'time': '10:00 PM', 'cost': '₹7,200'}],
+                    'buses': [{'time': '07:00 AM', 'cost': '₹1,800'}, {'time': '11:00 PM', 'cost': '₹1,800'}]
                 },
                 'nearby_attractions': [
                     {'name': 'Lake Brienz', 'image': 'https://images.unsplash.com/photo-1511200057375-300405230c11'},
@@ -441,21 +441,21 @@ class DiscoveryAI:
                 'description': 'Japan\'s highest mountain and an iconic symbol of the country.',
                 'distance': '100 km from Tokyo',
                 'best_time': 'July to September (Climbing)',
-                'entry_fee': '¥1,000 (Donation)',
+                'entry_fee': '₹550 (Donation)',
                 'famous_food': 'Houtou Noodles',
                 'suitability': ['Friends', 'Adventure'],
                 'photo_spots': 'Chureito Pagoda.',
                 'route': 'Bus from Shinjuku.',
                 'safety_tips': 'Check weather forecasts.',
-                'budget': '¥3000 - ¥8000',
+                'budget': '₹1,700 - ₹4,500',
                 'hotels': [
-                    {'name': 'Hoshinoya Fuji', 'price': '¥90,000', 'rating': '4.9'},
-                    {'name': 'Konansou', 'price': '¥50,000', 'rating': '4.7'}
+                    {'name': 'Hoshinoya Fuji', 'price': '₹51,000', 'rating': '4.9'},
+                    {'name': 'Konansou', 'price': '₹28,500', 'rating': '4.7'}
                 ],
                 'transport': {
-                    'flights': [{'time': '08:00 AM', 'cost': '¥30,000'}, {'time': '06:00 PM', 'cost': '¥45,000'}],
-                    'trains': [{'time': '07:30 AM', 'cost': '¥12,000'}, {'time': '09:30 PM', 'cost': '¥12,000'}],
-                    'buses': [{'time': '06:00 AM', 'cost': '¥2,500'}, {'time': '11:00 PM', 'cost': '¥2,500'}]
+                    'flights': [{'time': '08:00 AM', 'cost': '₹17,000'}, {'time': '06:00 PM', 'cost': '₹25,500'}],
+                    'trains': [{'time': '07:30 AM', 'cost': '₹6,800'}, {'time': '09:30 PM', 'cost': '₹6,800'}],
+                    'buses': [{'time': '06:00 AM', 'cost': '₹1,400'}, {'time': '11:00 PM', 'cost': '₹1,400'}]
                 },
                 'nearby_attractions': [
                     {'name': 'Lake Kawaguchi', 'image': 'https://images.unsplash.com/photo-1528164344705-4754268799af'},
@@ -477,15 +477,15 @@ class DiscoveryAI:
                 'photo_spots': 'Mrs Macquarie\'s Chair.',
                 'route': 'Train to Circular Quay.',
                 'safety_tips': 'Wear sunscreen.',
-                'budget': 'AUD 40 - AUD 120',
+                'budget': '₹2,200 - ₹6,600',
                 'hotels': [
-                    {'name': 'Park Hyatt Sydney', 'price': 'AUD 1,200', 'rating': '4.9'},
-                    {'name': 'InterContinental Sydney', 'price': 'AUD 500', 'rating': '4.6'}
+                    {'name': 'Park Hyatt Sydney', 'price': '₹66,000', 'rating': '4.9'},
+                    {'name': 'InterContinental Sydney', 'price': '₹27,500', 'rating': '4.6'}
                 ],
                 'transport': {
-                    'flights': [{'time': '09:00 AM', 'cost': 'AUD 400'}, {'time': '07:00 PM', 'cost': 'AUD 550'}],
-                    'trains': [{'time': '08:00 AM', 'cost': 'AUD 20'}, {'time': '10:00 PM', 'cost': 'AUD 20'}],
-                    'buses': [{'time': '07:00 AM', 'cost': 'AUD 10'}, {'time': '11:00 PM', 'cost': 'AUD 10'}]
+                    'flights': [{'time': '09:00 AM', 'cost': '₹22,000'}, {'time': '07:00 PM', 'cost': '₹30,250'}],
+                    'trains': [{'time': '08:00 AM', 'cost': '₹1,100'}, {'time': '10:00 PM', 'cost': '₹1,100'}],
+                    'buses': [{'time': '07:00 AM', 'cost': '₹550'}, {'time': '11:00 PM', 'cost': '₹550'}]
                 },
                 'nearby_attractions': [
                     {'name': 'Bondi Beach', 'image': 'https://images.unsplash.com/photo-1512428559087-560fa5ceab42'},
@@ -501,21 +501,21 @@ class DiscoveryAI:
                 'description': 'A Balinese Hindu sea temple located in Uluwatu, built at the edge of a 70-meter high cliff.',
                 'distance': '25 km from Kuta',
                 'best_time': 'Sunset (Kecak Dance)',
-                'entry_fee': 'IDR 50,000',
+                'entry_fee': '₹275',
                 'famous_food': 'Nasi Goreng, Sate Lilit',
                 'suitability': ['Solo', 'Couples'],
                 'photo_spots': 'The cliff edge view.',
                 'route': 'Rent a scooter.',
                 'safety_tips': 'Watch out for monkeys.',
-                'budget': 'IDR 200k - 500k',
+                'budget': '₹1,100 - ₹2,750',
                 'hotels': [
-                    {'name': 'Alila Villas Uluwatu', 'price': 'IDR 12M', 'rating': '4.9'},
-                    {'name': 'Radisson Blu Bali', 'price': 'IDR 3M', 'rating': '4.5'}
+                    {'name': 'Alila Villas Uluwatu', 'price': '₹66,000', 'rating': '4.9'},
+                    {'name': 'Radisson Blu Bali', 'price': '₹16,500', 'rating': '4.5'}
                 ],
                 'transport': {
-                    'flights': [{'time': '10:00 AM', 'cost': 'IDR 1.2M'}, {'time': '06:00 PM', 'cost': 'IDR 1.5M'}],
+                    'flights': [{'time': '10:00 AM', 'cost': '₹6,600'}, {'time': '06:00 PM', 'cost': '₹8,250'}],
                     'trains': [{'time': 'No Trains', 'cost': 'N/A'}],
-                    'buses': [{'time': '08:00 AM', 'cost': 'IDR 50k'}, {'time': '10:00 PM', 'cost': 'IDR 50k'}]
+                    'buses': [{'time': '08:00 AM', 'cost': '₹275'}, {'time': '10:00 PM', 'cost': '₹275'}]
                 },
                 'nearby_attractions': [
                     {'name': 'Padang Padang Beach', 'image': 'https://images.unsplash.com/photo-1539367628448-4bc5c9d171c8'},
@@ -1040,19 +1040,27 @@ class TravelAI:
 # --- Auth Views ---
 
 def register_view(request):
+    if request.user.is_authenticated:
+        return redirect('dashboard')
     if request.method == 'POST':
         form = UserRegistrationForm(request.POST)
         if form.is_valid():
             user = form.save(commit=False)
             user.set_password(form.cleaned_data['password'])
             user.save()
-            messages.success(request, "Registration successful! Please login.")
-            return redirect('login')
+            login(request, user)
+            messages.success(request, "Registration successful! Welcome to TravelAI.")
+            next_url = request.GET.get('next') or request.POST.get('next')
+            if next_url:
+                return redirect(next_url)
+            return redirect('dashboard')
     else:
         form = UserRegistrationForm()
     return render(request, 'travel_app/register.html', {'form': form})
 
 def login_view(request):
+    if request.user.is_authenticated:
+        return redirect('dashboard')
     if request.method == 'POST':
         form = AuthenticationForm(request, data=request.POST)
         if form.is_valid():
@@ -1061,6 +1069,9 @@ def login_view(request):
             user = authenticate(username=username, password=password)
             if user is not None:
                 login(request, user)
+                next_url = request.GET.get('next') or request.POST.get('next')
+                if next_url:
+                    return redirect(next_url)
                 return redirect('dashboard')
     else:
         form = AuthenticationForm()
@@ -1074,10 +1085,10 @@ def logout_view(request):
 
 def home(request):
     featured_destinations = [
-        {'name': 'Paris, France', 'image': 'https://images.unsplash.com/photo-1502602898657-3e91760cbb34', 'price': 1200, 'rating': 4.8},
-        {'name': 'Bali, Indonesia', 'image': 'https://images.unsplash.com/photo-1537996194471-e657df975ab4', 'price': 800, 'rating': 4.7},
-        {'name': 'Tokyo, Japan', 'image': 'https://images.unsplash.com/photo-1540959733332-e9ab659b8120', 'price': 1500, 'rating': 4.9},
-        {'name': 'Santorini, Greece', 'image': 'https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff', 'price': 1100, 'rating': 4.8},
+        {'name': 'Paris, France', 'image': 'https://images.unsplash.com/photo-1502602898657-3e91760cbb34', 'price': 95000, 'rating': 4.8},
+        {'name': 'Bali, Indonesia', 'image': 'https://images.unsplash.com/photo-1537996194471-e657df975ab4', 'price': 65000, 'rating': 4.7},
+        {'name': 'Tokyo, Japan', 'image': 'https://images.unsplash.com/photo-1540959733332-e9ab659b8120', 'price': 120000, 'rating': 4.9},
+        {'name': 'Santorini, Greece', 'image': 'https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff', 'price': 88000, 'rating': 4.8},
     ]
     return render(request, 'travel_app/home.html', {'destinations': featured_destinations})
 
@@ -1173,10 +1184,10 @@ def itinerary_detail(request, trip_id):
 @login_required
 def hotel_recommendations(request, trip_id=None):
     hotels = [
-        {'name': 'Grand Plaza Hotel', 'location': 'City Center', 'price': 150, 'rating': 4.5, 'image': 'https://images.unsplash.com/photo-1566073771259-6a8506099945'},
-        {'name': 'Ocean View Resort', 'location': 'Beachfront', 'price': 250, 'rating': 4.8, 'image': 'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4'},
-        {'name': 'Mountain Retreat', 'location': 'Highlands', 'price': 180, 'rating': 4.6, 'image': 'https://images.unsplash.com/photo-1445019980597-93fa8acb246c'},
-        {'name': 'Urban Boutique', 'location': 'Downtown', 'price': 120, 'rating': 4.2, 'image': 'https://images.unsplash.com/photo-1551882547-ff43c63be5c2'},
+        {'name': 'Grand Plaza Hotel', 'location': 'City Center', 'price': 7500, 'rating': 4.5, 'image': 'https://images.unsplash.com/photo-1566073771259-6a8506099945'},
+        {'name': 'Ocean View Resort', 'location': 'Beachfront', 'price': 12500, 'rating': 4.8, 'image': 'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4'},
+        {'name': 'Mountain Retreat', 'location': 'Highlands', 'price': 9000, 'rating': 4.6, 'image': 'https://images.unsplash.com/photo-1445019980597-93fa8acb246c'},
+        {'name': 'Urban Boutique', 'location': 'Downtown', 'price': 6000, 'rating': 4.2, 'image': 'https://images.unsplash.com/photo-1551882547-ff43c63be5c2'},
     ]
     trip = None
     if trip_id:

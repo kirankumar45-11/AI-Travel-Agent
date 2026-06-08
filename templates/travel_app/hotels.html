@@ -37,7 +37,7 @@
                 <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #f1f5f9; padding-top: 1.5rem;">
                     <div>
                         <p style="font-size: 0.75rem; color: #94a3b8; font-weight: 700; text-transform: uppercase;">Per Night</p>
-                        <h4 style="font-size: 1.8rem; color: var(--dark);">${{ hotel.price }}</h4>
+                        <h4 style="font-size: 1.8rem; color: var(--dark);">₹{{ hotel.price }}</h4>
                     </div>
                     {% if trip %}
                     <a href="{% url 'payment' trip.id %}?hotel={{ hotel.name|urlencode }}" class="btn btn-primary">Select Stay</a>

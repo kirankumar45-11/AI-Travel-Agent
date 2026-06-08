@@ -58,7 +58,7 @@
                     </div>
                     
                     <div class="form-group" style="grid-column: span 2;">
-                        <label><i class="fas fa-wallet" style="color: #10b981;"></i> ESTIMATED BUDGET ($)</label>
+                        <label><i class="fas fa-wallet" style="color: #10b981;"></i> ESTIMATED BUDGET (₹)</label>
                         {{ form.budget }}
                     </div>
                 </div>
@@ -82,11 +82,11 @@
                     <div style="margin-top: 1.5rem; display: flex; gap: 2rem;">
                         <div>
                             <span style="font-size: 0.75rem; color: var(--text-muted); font-weight: 800; display: block;">MIN. SUGGESTED</span>
-                            <span id="prediction-min" style="font-size: 1.5rem; font-weight: 800; color: var(--text-main);">$0</span>
+                            <span id="prediction-min" style="font-size: 1.5rem; font-weight: 800; color: var(--text-main);">₹0</span>
                         </div>
                         <div>
                             <span style="font-size: 0.75rem; color: var(--text-muted); font-weight: 800; display: block;">PER DAY</span>
-                            <span id="prediction-perday" style="font-size: 1.5rem; font-weight: 800; color: var(--text-main);">$0</span>
+                            <span id="prediction-perday" style="font-size: 1.5rem; font-weight: 800; color: var(--text-main);">₹0</span>
                         </div>
                     </div>
                 </div>
@@ -143,22 +143,22 @@
         if (start > end) return;
 
         const duration = Math.ceil((end - start) / (1000 * 60 * 60 * 24)) + 1;
-        const basePerDay = scope === 'Inside India' ? 100 : 350;
+        const basePerDay = scope === 'Inside India' ? 2500 : 15000;
 
         const multipliers = { 'Solo': 1.0, 'Family': 2.5, 'Adventure': 1.5, 'Romantic': 2.0, 'Business': 2.2 };
         const mult = multipliers[type] || 1.0;
         const minTotal = Math.round(basePerDay * duration * mult);
 
         document.getElementById('prediction-box').style.display = 'block';
-        document.getElementById('prediction-min').innerText = '$' + minTotal.toLocaleString();
-        document.getElementById('prediction-perday').innerText = '$' + Math.round(minTotal / duration).toLocaleString();
+        document.getElementById('prediction-min').innerText = '₹' + minTotal.toLocaleString();
+        document.getElementById('prediction-perday').innerText = '₹' + Math.round(minTotal / duration).toLocaleString();
 
         const badge = document.getElementById('prediction-badge');
-        if (minTotal > 5000) {
+        if (minTotal > 200000) {
             badge.innerText = '💸 EXPENSIVE';
             badge.style.background = '#fee2e2';
             badge.style.color = '#ef4444';
-        } else if (minTotal > 2000) {
+        } else if (minTotal > 80000) {
             badge.innerText = '⚖️ MODERATE';
             badge.style.background = '#fffbeb';
             badge.style.color = '#f59e0b';

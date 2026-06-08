@@ -77,10 +77,10 @@
             </div>
             <div class="card-content" style="padding: 2rem;">
                 <h3 style="margin-bottom: 0.5rem; font-size: 1.5rem;">{{ dest.name }}</h3>
-                <p style="color: #64748b; font-size: 0.95rem; margin-bottom: 1.5rem;">Starting from <strong>${{ dest.price }}</strong> per person.</p>
+                <p style="color: #64748b; font-size: 0.95rem; margin-bottom: 1.5rem;">Starting from <strong>₹{{ dest.price }}</strong> per person.</p>
                 <div style="display: flex; justify-content: space-between; align-items: center;">
                     <span style="background: #f1f5f9; padding: 0.4rem 0.8rem; border-radius: 0.5rem; font-size: 0.8rem; font-weight: 700; color: #475569;">7 Days</span>
-                    <a href="{% url 'register' %}" class="btn btn-primary btn-sm" style="padding: 0.6rem 1.2rem;">Book Now</a>
+                    <a href="{% url 'ai_planner' %}?destination={{ dest.name|urlencode }}" class="btn btn-primary btn-sm" style="padding: 0.6rem 1.2rem;">Book Now</a>
                 </div>
             </div>
         </div>
